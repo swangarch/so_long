@@ -1,31 +1,41 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/04 17:28:35 by shuwang           #+#    #+#             */
+/*   Updated: 2024/07/04 19:24:30 by shuwang          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	is_rectangle(int fd)
+#include "so_long.h"
+
+static	int	is_rectangle(char **map)
 {
-	char	*line;
-	int	numchar;
-	int	numcharnext;
-	int	numline;
+	int	i;
+	int	currl;
+	int	nextl;
 
-	line = get_next_line(fd);
-	if (line)
-		numline++;
-	while (line)
+	i = 0;
+	while (map[i])
 	{
-		numchar = ft_strlen(line);
-		free(line);
-		line = get_next_line(fd);
-		numcharnext = ft_strlen(line);
-		numline++;
-		if (numchar != numcharnext)
-			return (0);
+		currl = ft_strlen(map[i]);
+		i++;
+		if (map[i])
+		{
+			nextl = ft_strlen(map[i]);
+			if (nextl != currl)
+				return (0);
+		}
 	}
-	if (numline <= 1)
-		return (0);
+	if (i <= 1)
+		return (0);//sure? can the map be 1 or 2 lines?
 	return (1);
 }
 
-int	char_in_str(char *s, char c)
+static	int	char_in_str(char *s, char c)
 {
 	int	i;
 
@@ -39,17 +49,15 @@ int	char_in_str(char *s, char c)
 	return (0);
 }
 
-int	is_allchar_valid(char *s)
+static	int	is_valid_line(char *s)
 {
 	int	i;
-	int	j;
 	char	*charset = "10CPE";
 
 	i = 0;
 	while (s[i])
 	{
-		j = 0;
-		if (!char_in_str(charset, s[i]))
+		if (!char_in_str(charset, s[i]) && s[i] != '\n')
 			return (0);
 		i++;
 	}
@@ -57,54 +65,103 @@ int	is_allchar_valid(char *s)
 }
 
 /*gnl can not know if the NULL is caused by malloc fail or read to the end */
-int	is_validchar_map(int fd)
+static	int	is_allchar_valid(char **map)
 {
-	char	*line;
+	int	i;
 
-	line = get_next_line(fd);
-	while (line)
+	i = 0;
+	while (map[i])
 	{
-		if (!is_allchar_valid(line))
-		{
-			free(line);
+		if (!is_valid_line(map[i]))
 			return (0);
-		}
-		free(line);
-		line = get_next_line(fd);
+		i++;
 	}
-	free(line);
+	return (1);
+}
+
+static	int	is_not_repeat(char **map)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	curr_char_exist;
+	char	*char_srch = "PE";
+
+	i = 0;
+	while (char_srch[i])
+	{
+		j = 0;
+		curr_char_exist = 0;
+		while (map[j])
+		{
+			k = 0;
+			while (map[j][k])
+			{
+				if (char_srch[i] == map[j][k])
+				{
+					if (!curr_char_exist)
+						curr_char_exist++;
+					else 
+						return (0);
+				}
+				k++;
+			}
+			j++;	
+		}
+		i++;
+	}
 	return (1);
 }
 /*
-int	is_not_repeat(fd)
-{
-
-}
-
 int	is_path_exist(fd)
 {
 	
-}
+}*/
 
-int	is_validmap(fd)
+int	check_map(char **map)
 {
-}
+	int	check_problem;
 
-char	**collect_map(fd)
-{
-	
+	check_problem = 0;
+	if (!is_rectangle(map))
+	{
+		ft_printf("Map is not rectangle\n");
+		check_problem++;
+	}
+	if (!is_allchar_valid(map))
+	{	
+		ft_printf("Map has not legal char\n");
+		check_problem++;
+	}
+	if (!is_not_repeat(map))
+	{
+		ft_printf("Map has repetitions\n");
+		check_problem++;
+	}
+	/*add test of path exist*/
+	if (!check_problem)
+	{
+		ft_printf("Map is valid OK\n");
+		return (1);
+	}
+	else
+	{
+		ft_printf("Map is not valid KO\n");
+		return (0);
+	}
 }
-*/
+/*
 int	main(int ac, char **av)
 {
 	int	fd;
+	char **map;
 
 	fd = open(av[1], O_RDONLY);
-	
-	if (is_rectangle(fd) && is_validchar_map(fd))
-		ft_printf("Map valid\n");
-	else
-		ft_printf("Error\n");
+	map = read_map(fd);
+	if (map == NULL)
+		return (1);
+	print_map(map);
+	check_map(map);
 	close(fd);
 	return (0);
-}
+}*/
