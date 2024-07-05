@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-static	t_list	*map_tolist(fd)
+static	t_list	*map_tolist(int	fd)
 {
 	t_list	*lst;
 	t_list	*head;
@@ -30,7 +30,7 @@ static	t_list	*map_tolist(fd)
 	return (head);
 }
 
-static	int	count_map_line(t_list *lst)
+int	count_map_line(t_list *lst)
 {
 	t_list	*curr;
 	int	count;
@@ -44,7 +44,6 @@ static	int	count_map_line(t_list *lst)
 	}
 	return (count);
 }
-
 
 static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak risk when fail*/
 {
@@ -83,6 +82,28 @@ void	print_map(char **map)
 		i++;
 	}
 	ft_printf("\n");
+}
+
+t_mapsize	*get_map_size(char **map)
+{
+	int		i;
+	int		j;
+	t_mapsize	*size;
+
+	i = 0;
+	j = 0;
+	size = malloc(sizeof(t_mapsize));
+	if (size == NULL)
+		return (NULL);
+	while (map[i])
+	{
+		while (map[i][j] != '\n')
+			j++;
+		i++;
+	}
+	size->x = j;
+	size->y = i;
+	return (size);
 }
 
 char	**read_map(int fd)

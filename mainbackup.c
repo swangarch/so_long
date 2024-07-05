@@ -13,17 +13,39 @@
 #include "mlx.h"
 #include "so_long.h"
 
-void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
-{
 
+int	main(int ac, char **av)
+{
+	void	*mlx;
 	void	*image1;
 	void	*image2;
 	void	*image3;
 	void	*image4;
-	void	*image5;	
+	void	*image5;
+	void	*mlx_win;
 	int	w = 60;
-	int	h = 60;	
+	int	h = 60;
+	int	fd;
+	t_mapsize	*size;
 	int 	scale = 60;
+	
+	fd = open(av[1], O_RDONLY);
+	char **map = read_map(fd);
+	if (check_map(map) == 0)
+		return (1);
+
+	
+	(void) ac;	
+	mlx = mlx_init();
+
+	size = get_map_size(map);
+	if (size == NULL)
+	{
+		ft_printf("Error\n");
+		return (1);
+	}
+
+	mlx_win = mlx_new_window(mlx, (size->x) * scale, (size->y) * scale, "so_long");
 	image1 = mlx_xpm_file_to_image(mlx, "texture/ground_small.xpm", &w, &h);// protect not fail when image not exst
 	image2 = mlx_xpm_file_to_image(mlx, "texture/grass_small.xpm", &w, &h);// protect not fail when image not exst
 	image3 = mlx_xpm_file_to_image(mlx, "texture/door_small.xpm", &w, &h);// protect not fail when image not exst
@@ -51,89 +73,5 @@ void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
 		}
 		i++;
 	}
-}
-
-typedef	struct s_vars {
-	void	*mlx;
-	void	*win;
-	char	**map;
-}	t_vars;
-
-
-t_mapsize	*find_player(char **map)
-{
-	t_mapsize *position;
-	t_mapsize *size;
-	int	i;
-	int	j;
-	
-	size = get_map_size(map);
-	i = 0;
-	position = malloc(sizeof(t_mapsize));
-	if (position == NULL)
-		return (NULL);
-	while (i < size->y)
-	{
-		j = 0;
-		while (j < size->x)
-		{
-			if (map[i][j] == 'P')
-			{
-				position->x = j;
-				position->y = i;
-				return (position);
-			} 
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-int	key_control(int keycode, t_vars *vars)
-{
-	t_mapsize	*pos;
-
-	pos = find_player(vars->map);
-	if (keycode == 65307)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(0);
-	}
-	
-	if (keycode == 100)
-	{
-		(vars->map)[pos->x][pos->y] = '0';
-		(vars->map)[pos->x+1][pos->y] = 'P';	
-	}
-	return (0);
-}
-int	main(int ac, char **av)
-{
-	void	*mlx;
-	void	*mlx_win;
-	int	fd;
-	int	scale = 60;
-	t_vars	vars;
-	t_mapsize	*size;
-	
-	fd = open(av[1], O_RDONLY);
-	char **map = read_map(fd);
-	if (check_map(map) == 0)
-		return (1);
-	(void) ac;	
-	mlx = mlx_init();
-	size = get_map_size(map);
-	if (size == NULL)
-	{
-		ft_printf("Error\n");
-		return (1);
-	}
-	mlx_win = mlx_new_window(mlx, (size->x) * scale, (size->y) * scale, "so_long");	
-	render_map(map, mlx, mlx_win, size);
-	vars.mlx = mlx;
-	vars.win = mlx_win;
-	vars.map = map;
-	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(mlx);
 }
