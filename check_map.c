@@ -6,7 +6,7 @@
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 17:28:35 by shuwang           #+#    #+#             */
-/*   Updated: 2024/07/04 19:24:30 by shuwang          ###   ########.fr       */
+/*   Updated: 2024/07/05 16:32:36 by shuwang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,18 @@ static	int	is_not_repeat(char **map)
 	return (1);
 }
 /*
-int	is_path_exist(fd)
+int	is_path_exist(char **map)
 {
 	
-}*/
+}
+
+int	is_map_close(char **map)
+{
+
+}
+
+check also if the name of the file is valid, otherwise return error
+*/
 
 int	check_map(char **map)
 {
@@ -144,6 +152,7 @@ int	check_map(char **map)
 		ft_printf("Map is valid OK\n");
 		return (1);
 	}
+	/*add check file name .ber */
 	else
 	{
 		ft_printf("Map is not valid KO\n");
@@ -156,6 +165,11 @@ int	main(int ac, char **av)
 	int	fd;
 	char **map;
 
+	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
+	{
+		ft_printf("Error(Invalid mapname)\n");
+		return (1);
+	}
 	fd = open(av[1], O_RDONLY);
 	map = read_map(fd);
 	if (map == NULL)

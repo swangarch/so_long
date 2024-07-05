@@ -6,7 +6,7 @@
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 17:36:31 by shuwang           #+#    #+#             */
-/*   Updated: 2024/07/04 19:43:24 by shuwang          ###   ########.fr       */
+/*   Updated: 2024/07/05 19:34:51 by shuwang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,39 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	void	*mlx;
-	t_data	img;
+	void	*image1;
+	void	*image2;
 	void	*mlx_win;
+	int	w = 60;
+	int	h = 60;
+	int	fd;
 
+	fd = open(av[1], O_RDONLY);
+	char **map = read_map(fd);
+	
+	(void) ac;	
 	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-	img.img = mlx_new_image(mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	for (int i = 0; i < 1000; i++)
+	mlx_win = mlx_new_window(mlx, 1920, 1080, "so_long");
+	image1 = mlx_xpm_file_to_image(mlx, "texture/ground_small.xpm", &w, &h);// protect not fail when image not exst
+	image2 = mlx_xpm_file_to_image(mlx, "texture/grass_small.xpm", &w, &h);// protect not fail when image not exst
+	int	i = 0;
+	int	j = 0;
+	int 	scale = 62;
+	while (i < 5)
 	{
-		my_mlx_pixel_put(&img, i, i, 0X00FF0000);
-		my_mlx_pixel_put(&img, i, i, 0X00FF0000);
+		j = 0;
+		while (j < 30)
+		{
+			if (map[i][j] == '1')
+				mlx_put_image_to_window(mlx, mlx_win, image1, j * scale, i * scale);
+			if (map[i][j] == '0')
+				mlx_put_image_to_window(mlx, mlx_win, image2, j * scale, i * scale);
+			j++;
+		}
+		i++;
 	}
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
 	mlx_loop(mlx);
 }
