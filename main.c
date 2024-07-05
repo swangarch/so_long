@@ -34,6 +34,9 @@ int	main(int ac, char **av)
 	void	*mlx;
 	void	*image1;
 	void	*image2;
+	void	*image3;
+	void	*image4;
+	void	*image5;
 	void	*mlx_win;
 	int	w = 60;
 	int	h = 60;
@@ -47,6 +50,10 @@ int	main(int ac, char **av)
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "so_long");
 	image1 = mlx_xpm_file_to_image(mlx, "texture/ground_small.xpm", &w, &h);// protect not fail when image not exst
 	image2 = mlx_xpm_file_to_image(mlx, "texture/grass_small.xpm", &w, &h);// protect not fail when image not exst
+	image3 = mlx_xpm_file_to_image(mlx, "texture/door_small.xpm", &w, &h);// protect not fail when image not exst
+	image4 = mlx_xpm_file_to_image(mlx, "texture/pig_small.xpm", &w, &h);// protect not fail when image not exst
+	image5 = mlx_xpm_file_to_image(mlx, "texture/tresure_small.xpm", &w, &h);// protect not fail when image not exst
+
 	int	i = 0;
 	int	j = 0;
 	int 	scale = 62;
@@ -59,6 +66,12 @@ int	main(int ac, char **av)
 				mlx_put_image_to_window(mlx, mlx_win, image1, j * scale, i * scale);
 			if (map[i][j] == '0')
 				mlx_put_image_to_window(mlx, mlx_win, image2, j * scale, i * scale);
+			if (map[i][j] == 'E')
+				mlx_put_image_to_window(mlx, mlx_win, image3, j * scale, i * scale);
+			if (map[i][j] == 'P')
+				mlx_put_image_to_window(mlx, mlx_win, image4, j * scale, i * scale);
+			if (map[i][j] == 'C')
+				mlx_put_image_to_window(mlx, mlx_win, image5, j * scale, i * scale);
 			j++;
 		}
 		i++;
