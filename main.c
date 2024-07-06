@@ -13,6 +13,15 @@
 #include "mlx.h"
 #include "so_long.h"
 
+typedef	struct s_vars {
+	void	*mlx;
+	void	*win;
+	char	**map;
+	t_mapsize *size;
+	int		item_left;
+	int		mov_count;
+}	t_vars;
+
 void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
 {
 
@@ -21,14 +30,17 @@ void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
 	void	*image3;
 	void	*image4;
 	void	*image5;	
-	int	w = 60;
-	int	h = 60;	
+	int		w = 60;
+	int		h = 60;	
 	int 	scale = 60;
-	image1 = mlx_xpm_file_to_image(mlx, "texture/ground_small.xpm", &w, &h);// protect not fail when image not exst
-	image2 = mlx_xpm_file_to_image(mlx, "texture/grass_small.xpm", &w, &h);// protect not fail when image not exst
-	image3 = mlx_xpm_file_to_image(mlx, "texture/door_small.xpm", &w, &h);// protect not fail when image not exst
-	image4 = mlx_xpm_file_to_image(mlx, "texture/pig_small.xpm", &w, &h);// protect not fail when image not exst
-	image5 = mlx_xpm_file_to_image(mlx, "texture/tresure_small.xpm", &w, &h);// protect not fail when image not exst
+
+	// protect not fail when image not exist
+	image1 = mlx_xpm_file_to_image(mlx, "texture/ground_small.xpm", &w, &h);
+	image2 = mlx_xpm_file_to_image(mlx, "texture/grass_small.xpm", &w, &h);
+	image3 = mlx_xpm_file_to_image(mlx, "texture/door_small.xpm", &w, &h);
+	image4 = mlx_xpm_file_to_image(mlx, "texture/dog_small.xpm", &w, &h);
+	image5 = mlx_xpm_file_to_image(mlx, "texture/tresure_small.xpm", &w, &h);
+	// protect not fail when image not exist
 
 	int	i = 0;
 	int	j = 0;
@@ -52,14 +64,6 @@ void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
 		i++;
 	}
 }
-
-typedef	struct s_vars {
-	void	*mlx;
-	void	*win;
-	char	**map;
-	t_mapsize *size;
-}	t_vars;
-
 
 t_mapsize	*find_player(char **map)
 {
@@ -101,59 +105,128 @@ int	key_control(int keycode, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
 	}	
-	if (keycode == 100 && (vars->map)[pos->y][pos->x+1] != '1')
+	if (keycode == 100 && (vars->map)[pos->y][pos->x+1] != '1')  //D
 	{
-		(vars->map)[pos->y][pos->x] = '0';
-		(vars->map)[pos->y][pos->x+1] = 'P';
-		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+		if ((vars->map)[pos->y][pos->x+1] == 'C')
+		{
+			vars->item_left--;
+		}
+
+		if ((vars->map)[pos->y][pos->x+1] == 'E' && vars->item_left <= 0)
+		{
+			mlx_destroy_window(vars->mlx, vars->win);
+			ft_printf("You win\n");
+			exit(0);
+		}
+		if (!((vars->map)[pos->y][pos->x+1] == 'E' && vars->item_left > 0))
+		{
+			(vars->map)[pos->y][pos->x] = '0';
+			(vars->map)[pos->y][pos->x+1] = 'P';
+			vars->mov_count++;
+			render_map(vars->map, vars->mlx, vars->win, vars->size);
+			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
+			ft_printf("Movement count is %d\n", vars->mov_count);
+		}
 	}
-	if (keycode == 97 && (vars->map)[pos->y][pos->x-1] != '1')
+	if (keycode == 97 && (vars->map)[pos->y][pos->x-1] != '1')  //A
 	{
-		(vars->map)[pos->y][pos->x] = '0';
-		(vars->map)[pos->y][pos->x-1] = 'P';
-		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+		if ((vars->map)[pos->y][pos->x-1] == 'C')
+		{
+			vars->item_left--;
+		}
+
+		if ((vars->map)[pos->y][pos->x-1] == 'E' && vars->item_left <= 0)
+		{
+			mlx_destroy_window(vars->mlx, vars->win);
+			ft_printf("You win\n");
+			exit(0);
+		}
+		if (!((vars->map)[pos->y][pos->x-1] == 'E' && vars->item_left > 0))
+		{
+			(vars->map)[pos->y][pos->x] = '0';
+			(vars->map)[pos->y][pos->x-1] = 'P';
+			vars->mov_count++;
+			render_map(vars->map, vars->mlx, vars->win, vars->size);
+
+			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
+			ft_printf("Movement count is %d\n", vars->mov_count);
+		}
 	}
-	if (keycode == 119 && (vars->map)[pos->y-1][pos->x] != '1')
+	if (keycode == 119 && (vars->map)[pos->y-1][pos->x] != '1')  //W
 	{
-		(vars->map)[pos->y][pos->x] = '0';
-		(vars->map)[pos->y-1][pos->x] = 'P';
-		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+		if ((vars->map)[pos->y-1][pos->x] == 'C')
+			vars->item_left--;
+
+		if ((vars->map)[pos->y-1][pos->x] == 'E' && vars->item_left <= 0)
+		{
+			mlx_destroy_window(vars->mlx, vars->win);
+			ft_printf("You win\n");
+			exit(0);
+		}
+
+		if (!((vars->map)[pos->y-1][pos->x] == 'E' && vars->item_left > 0))
+		{
+			(vars->map)[pos->y][pos->x] = '0';
+			(vars->map)[pos->y-1][pos->x] = 'P';
+			vars->mov_count++;
+			render_map(vars->map, vars->mlx, vars->win, vars->size);
+			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
+			ft_printf("Movement count is %d\n", vars->mov_count);
+		}
 	}
-	if (keycode == 115 && (vars->map)[pos->y+1][pos->x] != '1')
+	if (keycode == 115 && (vars->map)[pos->y+1][pos->x] != '1')  //S
 	{
-		(vars->map)[pos->y][pos->x] = '0';
-		(vars->map)[pos->y + 1][pos->x] = 'P';
-		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+		if ((vars->map)[pos->y + 1][pos->x] == 'C')
+			vars->item_left--;
+
+		if ((vars->map)[pos->y+1][pos->x] == 'E' && vars->item_left <= 0)
+		{
+			mlx_destroy_window(vars->mlx, vars->win);
+			ft_printf("You win\n");
+			exit(0);
+		}
+		if (!((vars->map)[pos->y+1][pos->x] == 'E' && vars->item_left > 0))
+		{
+			(vars->map)[pos->y][pos->x] = '0';
+			(vars->map)[pos->y + 1][pos->x] = 'P';
+			vars->mov_count++;
+			render_map(vars->map, vars->mlx, vars->win, vars->size);
+			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
+			ft_printf("Movement count is %d\n", vars->mov_count);
+		}
 	}
 	return (0);
 }
+
 int	main(int ac, char **av)
 {
-	void	*mlx;
-	void	*mlx_win;
 	int	fd;
 	int	scale = 60;
 	t_vars	vars;
-	t_mapsize	*size;
 	
-	fd = open(av[1], O_RDONLY);
-	char **map = read_map(fd);
-	if (check_map(map) == 0)
+	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
+	{
+		ft_printf("Error (Invalid mapname)\n");
 		return (1);
-	(void) ac;	
-	mlx = mlx_init();
-	size = get_map_size(map);
-	if (size == NULL)
+	}
+	fd = open(av[1], O_RDONLY);
+	vars.map = read_map(fd);
+	if (check_map(vars.map) == 0)
+		return (1);
+	(void) ac;
+	
+	vars.mlx = mlx_init();
+	vars.size = get_map_size(vars.map);
+	if (vars.size == NULL)
 	{
 		ft_printf("Error\n");
 		return (1);
 	}
-	mlx_win = mlx_new_window(mlx, (size->x) * scale, (size->y) * scale, "so_long");	
-	render_map(map, mlx, mlx_win, size);
-	vars.mlx = mlx;
-	vars.win = mlx_win;
-	vars.map = map;
-	vars.size = size;
+	vars.item_left = count_collectible(vars.map);
+	vars.mov_count = 0;
+	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
+	render_map(vars.map, vars.mlx, vars.win, vars.size);
+	//ft_printf("The number of collectible in this map is %d\n", count_collectible(vars.map));
 	mlx_key_hook(vars.win, key_control, &vars);
-	mlx_loop(mlx);
+	mlx_loop(vars.mlx);
 }

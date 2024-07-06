@@ -62,7 +62,7 @@ static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak
 	{
 		map[i] = (char *)(curr->content);
 		curr = curr->next;
-	       	i++;
+	    i++;
 	}	
 	map[i] = NULL;
 	///////ft_lstfree(lst);   here use a function to clear the list but keep content

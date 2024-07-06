@@ -25,5 +25,6 @@ char	**read_map(int fd);
 void	print_map(char **map);
 int     check_map(char **map);
 t_mapsize       *get_map_size(char **map);
+int	count_collectible(char **map);
 
 #endif
