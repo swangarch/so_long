@@ -78,7 +78,7 @@ static	int	is_allchar_valid(char **map)
 	}
 	return (1);
 }
-
+/*
 static	int	is_not_repeat(char **map)
 {
 	int	i;
@@ -111,10 +111,9 @@ static	int	is_not_repeat(char **map)
 		i++;
 	}
 	return (1);
-}
+}*/
 
-
-/*the following functions can be merged into one, includding the top one*/
+/*the following functions can be merged into one, includding the top one
 int	count_collectible(char **map)
 {
 	int	i;
@@ -136,7 +135,7 @@ int	count_collectible(char **map)
 		i++;
 	}
 	return (c);
-}
+}*/
 
 int	count_char(char **map, char ch)
 {
@@ -163,14 +162,14 @@ int	count_char(char **map, char ch)
 
 static int has_c(char **map)
 {
-	if (count_collectible(map) > 0)
+	if (count_char(map, 'C') > 0)
 		return (1);
 	return (0);
 }
 
-static int has_ab(char **map)
+static int correct_pe(char **map)
 {
-	if (count_char(map, 'P') >= 1 && count_char(map, 'E') >= 1)
+	if (count_char(map, 'P') == 1 && count_char(map, 'E') == 1)
 		return (1);
 	return (0);
 }
@@ -213,53 +212,40 @@ int	is_path_exist(char **map)
 
 int	check_map(char **map)
 {
-	int	check_problem;
-
-	check_problem = 0;
 	if (!is_rectangle(map))
 	{
-		ft_printf("Map is not rectangle\n");
-		check_problem++;
+		ft_printf("Error\nMap is not rectangle\n");
+		return (0);
 	}
 	if (!is_allchar_valid(map))
 	{	
-		ft_printf("Map has not legal char\n");
-		check_problem++;
+		ft_printf("Error\nMap has not legal char\n");
+		return (0);
 	}
+	/*
 	if (!is_not_repeat(map))
 	{
-		ft_printf("Map has repetitions\n");
-		check_problem++;
-	}
+		ft_printf("Error\nMap has repetitions\n");
+		return (0);
+	}*/
 	if (!has_c(map))
 	{
-		ft_printf("Map has no collectible\n");
-		check_problem++;
+		ft_printf("Error\nMap has no collectible\n");
+		return (0);
 	}
 
-	if (!has_ab(map))
+	if (!correct_pe(map))
 	{
-		ft_printf("Map has no player or exit\n");
-		check_problem++;
+		ft_printf("Error\nMap has no player or exit or has repetition\n");
+		return (0);
 	}
 
 	if (!is_map_close(map))
 	{
-		ft_printf("Map has no contour\n");
-		check_problem++;
-	}
-	/*add test of path exist and file content exist*/
-	if (!check_problem)
-	{
-		ft_printf("Map is valid OK\n");
-		return (1);
-	}
-	
-	else
-	{
-		ft_printf("Error Map is not valid KO\n");
+		ft_printf("Error\nMap has no contour\n");
 		return (0);
 	}
+	return (1);
 }
 /*
 int	main(int ac, char **av)

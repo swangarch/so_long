@@ -22,47 +22,43 @@ typedef	struct s_vars {
 	int		mov_count;
 }	t_vars;
 
-void	render_map(t_vars *vars)
+void	render_map(char **map, void *mlx, void *mlx_win, t_mapsize *size)
 {
 
 	void	*image1;
 	void	*image2;
 	void	*image3;
 	void	*image4;
-	void	*image5;
-	void	*image6;	
+	void	*image5;	
 	int		w = 60;
 	int		h = 60;	
 	int 	scale = 60;
 
 	// protect not fail when image not exist
-	image1 = mlx_xpm_file_to_image(vars->mlx, "texture/1.xpm", &w, &h);
-	image2 = mlx_xpm_file_to_image(vars->mlx, "texture/0.xpm", &w, &h);
-	image3 = mlx_xpm_file_to_image(vars->mlx, "texture/e.xpm", &w, &h);
-	image4 = mlx_xpm_file_to_image(vars->mlx, "texture/p.xpm", &w, &h);
-	image5 = mlx_xpm_file_to_image(vars->mlx, "texture/c.xpm", &w, &h);
-	image6 = mlx_xpm_file_to_image(vars->mlx, "texture/door_small.xpm", &w, &h);
+	image1 = mlx_xpm_file_to_image(mlx, "texture/1.xpm", &w, &h);
+	image2 = mlx_xpm_file_to_image(mlx, "texture/0.xpm", &w, &h);
+	image3 = mlx_xpm_file_to_image(mlx, "texture/e.xpm", &w, &h);
+	image4 = mlx_xpm_file_to_image(mlx, "texture/p.xpm", &w, &h);
+	image5 = mlx_xpm_file_to_image(mlx, "texture/c.xpm", &w, &h);
 	// protect not fail when image not exist
 
 	int	i = 0;
 	int	j = 0;
-	while (i < vars->size->y)
+	while (i < size->y)
 	{
 		j = 0;
-		while (j < vars->size->x)
+		while (j < size->x)
 		{
-			if (vars->map[i][j] == '1')
-				mlx_put_image_to_window(vars->mlx, vars->win, image1, j * scale, i * scale);
-			if (vars->map[i][j] == '0')
-				mlx_put_image_to_window(vars->mlx, vars->win, image2, j * scale, i * scale);
-			if (vars->map[i][j] == 'E' && vars->item_left <= 0)
-				mlx_put_image_to_window(vars->mlx, vars->win, image3, j * scale, i * scale);
-			if (vars->map[i][j] == 'P')
-				mlx_put_image_to_window(vars->mlx, vars->win, image4, j * scale, i * scale);
-			if (vars->map[i][j] == 'C')
-				mlx_put_image_to_window(vars->mlx, vars->win, image5, j * scale, i * scale);
-			if (vars->map[i][j] == 'E' && vars->item_left > 0)
-				mlx_put_image_to_window(vars->mlx, vars->win, image6, j * scale, i * scale);
+			if (map[i][j] == '1')
+				mlx_put_image_to_window(mlx, mlx_win, image1, j * scale, i * scale);
+			if (map[i][j] == '0')
+				mlx_put_image_to_window(mlx, mlx_win, image2, j * scale, i * scale);
+			if (map[i][j] == 'E')
+				mlx_put_image_to_window(mlx, mlx_win, image3, j * scale, i * scale);
+			if (map[i][j] == 'P')
+				mlx_put_image_to_window(mlx, mlx_win, image4, j * scale, i * scale);
+			if (map[i][j] == 'C')
+				mlx_put_image_to_window(mlx, mlx_win, image5, j * scale, i * scale);
 			j++;
 		}
 		i++;
@@ -130,7 +126,7 @@ int	move_character(int keycode, t_vars *vars)
 			(vars->map)[pos->y][pos->x] = '0';
 			*next_pos = 'P';
 			vars->mov_count++;
-			render_map(vars);
+			render_map(vars->map, vars->mlx, vars->win, vars->size);
 			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
 			ft_printf("Movement count is %d\n", vars->mov_count);
 		}
@@ -181,7 +177,7 @@ int	main(int ac, char **av)
 	vars.item_left = count_char(vars.map, 'C');
 	vars.mov_count = 0;
 	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
-	render_map(&vars);
+	render_map(vars.map, vars.mlx, vars.win, vars.size);
 	//ft_printf("The number of collectible in this map is %d\n", count_collectible(vars.map));
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(vars.mlx);
