@@ -57,6 +57,7 @@ typedef	struct s_vars {
 	void	*mlx;
 	void	*win;
 	char	**map;
+	t_mapsize *size;
 }	t_vars;
 
 
@@ -99,12 +100,30 @@ int	key_control(int keycode, t_vars *vars)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
-	}
-	
-	if (keycode == 100)
+	}	
+	if (keycode == 100 && (vars->map)[pos->y][pos->x+1] != '1')
 	{
-		(vars->map)[pos->x][pos->y] = '0';
-		(vars->map)[pos->x+1][pos->y] = 'P';	
+		(vars->map)[pos->y][pos->x] = '0';
+		(vars->map)[pos->y][pos->x+1] = 'P';
+		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+	}
+	if (keycode == 97 && (vars->map)[pos->y][pos->x-1] != '1')
+	{
+		(vars->map)[pos->y][pos->x] = '0';
+		(vars->map)[pos->y][pos->x-1] = 'P';
+		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+	}
+	if (keycode == 119 && (vars->map)[pos->y-1][pos->x] != '1')
+	{
+		(vars->map)[pos->y][pos->x] = '0';
+		(vars->map)[pos->y-1][pos->x] = 'P';
+		render_map(vars->map, vars->mlx, vars->win, vars->size);	
+	}
+	if (keycode == 115 && (vars->map)[pos->y+1][pos->x] != '1')
+	{
+		(vars->map)[pos->y][pos->x] = '0';
+		(vars->map)[pos->y + 1][pos->x] = 'P';
+		render_map(vars->map, vars->mlx, vars->win, vars->size);	
 	}
 	return (0);
 }
@@ -134,6 +153,7 @@ int	main(int ac, char **av)
 	vars.mlx = mlx;
 	vars.win = mlx_win;
 	vars.map = map;
+	vars.size = size;
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(mlx);
 }
