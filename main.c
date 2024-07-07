@@ -20,6 +20,7 @@ typedef	struct s_vars {
 	t_mapsize *size;
 	int		item_left;
 	int		mov_count;
+	int		mov_direction;
 }	t_vars;
 
 void	render_map(t_vars *vars)
@@ -30,7 +31,8 @@ void	render_map(t_vars *vars)
 	void	*image3;
 	void	*image4;
 	void	*image5;
-	void	*image6;	
+	void	*image6;
+	void	*image7;
 	int		w = 60;
 	int		h = 60;	
 	int 	scale = 60;
@@ -42,6 +44,7 @@ void	render_map(t_vars *vars)
 	image4 = mlx_xpm_file_to_image(vars->mlx, "texture/p.xpm", &w, &h);
 	image5 = mlx_xpm_file_to_image(vars->mlx, "texture/c.xpm", &w, &h);
 	image6 = mlx_xpm_file_to_image(vars->mlx, "texture/door_small.xpm", &w, &h);
+	image7 = mlx_xpm_file_to_image(vars->mlx, "texture/pright.xpm", &w, &h);
 	// protect not fail when image not exist
 
 	int	i = 0;
@@ -58,7 +61,12 @@ void	render_map(t_vars *vars)
 			if (vars->map[i][j] == 'E' && vars->item_left <= 0)
 				mlx_put_image_to_window(vars->mlx, vars->win, image3, j * scale, i * scale);
 			if (vars->map[i][j] == 'P')
-				mlx_put_image_to_window(vars->mlx, vars->win, image4, j * scale, i * scale);
+			{
+				if (vars->mov_direction == 0)
+					mlx_put_image_to_window(vars->mlx, vars->win, image4, j * scale, i * scale);
+				else if (vars->mov_direction == 1)
+					mlx_put_image_to_window(vars->mlx, vars->win, image7, j * scale, i * scale);
+			}
 			if (vars->map[i][j] == 'C')
 				mlx_put_image_to_window(vars->mlx, vars->win, image5, j * scale, i * scale);
 			if (vars->map[i][j] == 'E' && vars->item_left > 0)
@@ -106,13 +114,21 @@ int	move_character(int keycode, t_vars *vars)
 	pos = find_player(vars->map);  //check pos is null 
 
 	if (keycode == 100)
-		next_pos = &(vars->map)[pos->y][pos->x+1]; //keycode == 100
+	{
+		next_pos = &(vars->map)[pos->y][pos->x+1]; 
+		vars->mov_direction = 1;
+	}												//keycode == 100 d
 	else if (keycode == 97)
-		next_pos = &(vars->map)[pos->y][pos->x-1]; //keycode == 97
+	{
+		next_pos = &(vars->map)[pos->y][pos->x-1]; 
+		vars->mov_direction = 0;
+	}												//keycode == 97 a
 	else if (keycode == 119)
-		next_pos = &(vars->map)[pos->y-1][pos->x]; //keycode == 119
+		next_pos = &(vars->map)[pos->y-1][pos->x]; //keycode == 119 w
 	else if (keycode == 115)
-		next_pos = &(vars->map)[pos->y+1][pos->x]; //keycode == 115
+		next_pos = &(vars->map)[pos->y+1][pos->x]; //keycode == 115 s
+	else
+		return (0);
 	if (*next_pos != '1')
 	{
 		if (*next_pos == 'C')
@@ -154,7 +170,18 @@ int	main(int ac, char **av)
 	int	fd;
 	int	scale = 60;
 	t_vars	vars;
-	
+
+	if (ac < 2)
+	{
+		ft_printf("Error\nNo map\n");
+		return (1);
+	}
+	else if (ac > 2)
+	{
+		ft_printf("Error\nToo much arguments\n");
+		return (1);
+	}
+
 	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
 	{
 		ft_printf("Error\nInvalid filename\n");
@@ -169,7 +196,6 @@ int	main(int ac, char **av)
 	vars.map = read_map(fd);
 	if (check_map(vars.map) == 0)
 		return (1);
-	(void) ac;
 	
 	vars.mlx = mlx_init();
 	vars.size = get_map_size(vars.map);
@@ -180,6 +206,7 @@ int	main(int ac, char **av)
 	}
 	vars.item_left = count_char(vars.map, 'C');
 	vars.mov_count = 0;
+	vars.mov_direction = 0;
 	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
 	render_map(&vars);
 	//ft_printf("The number of collectible in this map is %d\n", count_collectible(vars.map));
