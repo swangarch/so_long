@@ -111,7 +111,8 @@ int	move_character(int keycode, t_vars *vars)
 {
 	t_mapsize	*pos;
 	char	*next_pos;
-	pos = find_player(vars->map);  //check pos is null 
+	pos = find_player(vars->map);  //check pos is null
+	char	*count;
 
 	if (keycode == 100)
 	{
@@ -147,7 +148,9 @@ int	move_character(int keycode, t_vars *vars)
 			*next_pos = 'P';
 			vars->mov_count++;
 			render_map(vars);
-			mlx_string_put(vars->mlx, vars->win, 60, 60, 0xFFFFFF, "Hello world\n");
+			count = ft_itoa(vars->mov_count); //leak
+			count = ft_strjoin("Move ", count);//leak	
+			mlx_string_put(vars->mlx, vars->win, 20, 20, 0xFFFFFF, count);
 			ft_printf("Movement count is %d\n", vars->mov_count);
 		}
 	}
@@ -170,6 +173,7 @@ int	main(int ac, char **av)
 	int	fd;
 	int	scale = 60;
 	t_vars	vars;
+	char	*count;
 
 	if (ac < 2)
 	{
@@ -209,6 +213,9 @@ int	main(int ac, char **av)
 	vars.mov_direction = 0;
 	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
 	render_map(&vars);
+	count = ft_itoa(vars.mov_count); //leak
+	count = ft_strjoin("Move ", count);//leaki
+	mlx_string_put(vars.mlx, vars.win, 20, 20, 0xFFFFFF, count);
 	//ft_printf("The number of collectible in this map is %d\n", count_collectible(vars.map));
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(vars.mlx);
