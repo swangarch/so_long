@@ -77,36 +77,6 @@ void	render_map(t_vars *vars)
 	}
 }
 
-t_mapsize	*find_player(char **map)
-{
-	t_mapsize *position;
-	t_mapsize *size;
-	int	i;
-	int	j;
-	
-	size = get_map_size(map);
-	i = 0;
-	position = malloc(sizeof(t_mapsize));
-	if (position == NULL)
-		return (NULL);
-	while (i < size->y)
-	{
-		j = 0;
-		while (j < size->x)
-		{
-			if (map[i][j] == 'P')
-			{
-				position->x = j;
-				position->y = i;
-				return (position);
-			} 
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
 int	move_character(int keycode, t_vars *vars)
 {
 	t_mapsize	*pos;

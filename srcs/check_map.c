@@ -31,7 +31,7 @@ static	int	is_rectangle(char **map)
 		}
 	}
 	if (i <= 1)
-		return (0);//sure? can the map be 1 or 2 lines?
+		return (0);
 	return (1);
 }
 
@@ -78,64 +78,6 @@ static	int	is_allchar_valid(char **map)
 	}
 	return (1);
 }
-/*
-static	int	is_not_repeat(char **map)
-{
-	int	i;
-	int	j;
-	int	k;
-	int	curr_char_exist;
-	char	*char_srch = "PE";
-
-	i = 0;
-	while (char_srch[i])
-	{
-		j = 0;
-		curr_char_exist = 0;
-		while (map[j])
-		{
-			k = 0;
-			while (map[j][k])
-			{
-				if (char_srch[i] == map[j][k])
-				{
-					if (!curr_char_exist)
-						curr_char_exist++;
-					else 
-						return (0);
-				}
-				k++;
-			}
-			j++;	
-		}
-		i++;
-	}
-	return (1);
-}*/
-
-/*the following functions can be merged into one, includding the top one
-int	count_collectible(char **map)
-{
-	int	i;
-	int	j;
-	int	c;
-
-	i = 0;
-	j = 0;
-	c = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'C')
-				c++;
-			j++;
-		}
-		i++;
-	}
-	return (c);
-}*/
 
 int	count_char(char **map, char ch)
 {
@@ -200,15 +142,113 @@ int	is_map_close(char **map)
 	return (1);
 }
 
-/*
-is file exist??
+t_mapsize	*find_player(char **map)
+{
+	t_mapsize *position;
+	t_mapsize *size;
+	int	i;
+	int	j;
+	
+	size = get_map_size(map);
+	i = 0;
+	position = malloc(sizeof(t_mapsize));
+	if (position == NULL)
+		return (NULL);
+	while (i < size->y)
+	{
+		j = 0;
+		while (j < size->x)
+		{
+			if (map[i][j] == 'P')
+			{
+				position->x = j;
+				position->y = i;
+				return (position);
+			} 
+			j++;
+		}
+		i++;
+	}
+	return (NULL);
+}
 
+
+void	fill_x(char **map, int	x, int y)
+{
+	if (map[y][x + 1] != '1' && map[y][x + 1] != 'X')
+	{
+		map[y][x + 1] = 'X';
+		fill_x(map, x + 1, y);
+	}
+	if (map[y][x - 1] != '1' && map[y][x - 1] != 'X')
+	{
+		map[y][x - 1] = 'X';
+		fill_x(map, x - 1, y);
+	}
+	if (map[y + 1][x] != '1' && map[y + 1][x] != 'X')
+	{
+		map[y + 1][x] = 'X';
+		fill_x(map, x, y + 1);
+	}
+	if (map[y - 1][x] != '1' && map[y - 1][x] != 'X')
+	{
+		map[y - 1][x] = 'X';
+		fill_x(map, x, y - 1);
+	}
+}
+
+char	**dup_map(char **map)
+{
+	int		i;
+	char	**copymap;
+
+	i = 0;
+	while (map[i])
+		i++;
+	copymap = malloc(sizeof(char *) * (i + 1));
+	if (copymap == NULL)
+		return (NULL);
+	i = 0;
+	while (map[i])
+	{
+		copymap[i] = ft_strdup(map[i]);
+		i++;
+	}
+	copymap[i] = NULL;
+	return (copymap);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
 
 int	is_path_exist(char **map)
 {
-	this function can use recursive to 	
+	t_mapsize *pos;
+	char	**copymap;
+
+	copymap = dup_map(map);
+	if (copymap == NULL)
+		return (0);
+	pos = find_player(copymap);
+	fill_x(copymap, pos->x, pos->y);
+	if (count_char(copymap, 'C') > 0 || count_char(copymap, 'P') > 0 || count_char(copymap, 'E') > 0)
+	{
+		free_map(copymap);	
+		return (0);// free dup
+	}
+	free_map(copymap);
+	return (1);
 }
-*/
 
 int	check_map(char **map)
 {
@@ -222,12 +262,7 @@ int	check_map(char **map)
 		ft_printf("Error\nMap has not legal char\n");
 		return (0);
 	}
-	/*
-	if (!is_not_repeat(map))
-	{
-		ft_printf("Error\nMap has repetitions\n");
-		return (0);
-	}*/
+	
 	if (!has_c(map))
 	{
 		ft_printf("Error\nMap has no collectible\n");
@@ -239,10 +274,14 @@ int	check_map(char **map)
 		ft_printf("Error\nMap has no player or exit or has repetition\n");
 		return (0);
 	}
-
 	if (!is_map_close(map))
 	{
 		ft_printf("Error\nMap has no contour\n");
+		return (0);
+	}
+	if (!is_path_exist(map))
+	{
+		ft_printf("Error\nMap has no path\n");
 		return (0);
 	}
 	return (1);
@@ -252,6 +291,7 @@ int	main(int ac, char **av)
 {
 	int	fd;
 	char **map;
+	t_mapsize *pos;
 
 	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
 	{
@@ -265,5 +305,8 @@ int	main(int ac, char **av)
 		return (1);
 	print_map(map);
 	check_map(map);
+	pos = find_player(map);
+	fill_x(map, pos->x, pos->y);
+	print_map(map);
 	return (0);
 }*/
