@@ -45,6 +45,24 @@ int	count_map_line(t_list *lst)
 	return (count);
 }
 
+void	ft_lst_freenode(t_list **lst)
+{
+	t_list	*curr;
+	t_list	*freenode;
+
+	curr = *lst;
+	if (*lst == NULL)
+		return ;
+	while (curr != NULL)
+	{
+		freenode = curr;
+		curr = curr->next;
+		free(freenode);
+		freenode = NULL;
+	}
+	*lst = NULL;
+}
+
 static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak risk when fail*/
 {
 	char	**map;
@@ -65,6 +83,7 @@ static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak
 	    i++;
 	}	
 	map[i] = NULL;
+	ft_lst_freenode(&lst);
 	///////ft_lstfree(lst);   here use a function to clear the list but keep content
 	return (map);
 }
@@ -119,5 +138,6 @@ int	main(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	map = read_map(fd);
 	print_map(map);	
+	free_map(map);
 	return (0);
 }*/

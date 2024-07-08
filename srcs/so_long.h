@@ -27,5 +27,6 @@ int     check_map(char **map);
 t_mapsize       *get_map_size(char **map);
 int	count_char(char **map, char ch);
 t_mapsize	*find_player(char **map);
+void	free_map(char **map);
 
 #endif
