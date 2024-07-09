@@ -16,21 +16,24 @@
 # include "libft.h"
 # include "mlx.h"
 
+typedef	struct s_texture {
+	void	*image_1;
+	void	*image_0;
+	void	*image_e;
+	void	*image_pl;
+	void	*image_c;
+	void	*image_c2;
+	void	*image_c3;
+	void	*image_e2;
+	void	*image_pr;
+	void	*image_m;
+} t_texture;
+
 typedef	struct s_mapsize
 {
 	int	x;
 	int	y;
 }	t_mapsize;
-
-typedef	struct s_texture {
-	void	*image1;
-	void	*image2;
-	void	*image3;
-	void	*image4;
-	void	*image5;
-	void	*image6;
-	void	*image7;
-} t_texture;
 
 typedef	struct s_vars {
 	void	*mlx;
@@ -40,6 +43,7 @@ typedef	struct s_vars {
 	int		item_left;
 	int		mov_count;
 	int		mov_direction;
+	int		frame;
 }	t_vars;
 
 char	**read_map(int fd);
