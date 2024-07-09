@@ -55,11 +55,14 @@ t_mapsize	*find_player(char **map)
 			{
 				position->x = j;
 				position->y = i;
+				free(size);
 				return (position);
 			} 
 			j++;
 		}
 		i++;
 	}
+	free(size);
+	free(position);
 	return (NULL);
 }

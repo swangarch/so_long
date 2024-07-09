@@ -30,7 +30,7 @@ static	t_list	*map_tolist(int	fd)
 	return (head);
 }
 
-int	count_map_line(t_list *lst)
+static int	count_map_line(t_list *lst)
 {
 	t_list	*curr;
 	int	count;
@@ -45,7 +45,7 @@ int	count_map_line(t_list *lst)
 	return (count);
 }
 
-void	ft_lst_freenode(t_list **lst)
+static void	ft_lst_freenode(t_list **lst)
 {
 	t_list	*curr;
 	t_list	*freenode;
@@ -83,11 +83,14 @@ static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak
 	    i++;
 	}	
 	map[i] = NULL;
-	ft_lst_freenode(&lst);
-	///////ft_lstfree(lst);   here use a function to clear the list but keep content
+	ft_lst_freenode(&lst); //here use a function to clear the list but keep content
 	return (map);
 }
 
+char	**read_map(int fd)
+{
+	return (lst_tomap(map_tolist(fd)));
+}
 
 /*this funtion is just for testing, after need to convert it into malloc, so no more need for this
 void	print_map(char **map)
@@ -103,10 +106,6 @@ void	print_map(char **map)
 	ft_printf("\n");
 }*/
 
-char	**read_map(int fd)
-{
-	return (lst_tomap(map_tolist(fd)));
-}
 /*
 int	main(int ac, char **av)
 {

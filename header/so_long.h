@@ -22,6 +22,16 @@ typedef	struct s_mapsize
 	int	y;
 }	t_mapsize;
 
+typedef	struct s_texture {
+	void	*image1;
+	void	*image2;
+	void	*image3;
+	void	*image4;
+	void	*image5;
+	void	*image6;
+	void	*image7;
+} t_texture;
+
 typedef	struct s_vars {
 	void	*mlx;
 	void	*win;
@@ -42,5 +52,10 @@ void	free_map(char **map);
 void	render_map(t_vars *vars);
 int	key_control(int keycode, t_vars *vars);
 int	move_character(int keycode, t_vars *vars);
+void	show_step_on_screen(t_vars *vars);
+int	is_path_exist(char **map);
+int	is_allchar_valid(char **map);
+void	destroy_vars(t_vars *vars);
+void	destroy_textures(t_vars *vars, t_texture *textures);
 
 #endif
