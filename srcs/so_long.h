@@ -12,7 +12,7 @@
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-
+# define SCALE 60
 # include "libft.h"
 
 typedef	struct s_mapsize

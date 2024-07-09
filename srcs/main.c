@@ -138,35 +138,66 @@ int	key_control(int keycode, t_vars *vars)
 	return (0);
 }
 
-int	main(int ac, char **av)
+void	check_param(int ac, char **av)
 {
-	int	fd;
-	int	scale = 60;
-	t_vars	vars;
-	char	*count;
-
 	if (ac < 2)
 	{
 		ft_printf("Error\nNo map\n");
-		return (1);
+		exit(0);
 	}
 	else if (ac > 2)
 	{
 		ft_printf("Error\nToo much arguments\n");
-		return (1);
+		exit(0);
 	}
 
 	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
 	{
 		ft_printf("Error\nInvalid filename\n");
-		return (1);
+		exit(0);
 	}
+}
+
+t_vars *init_vars(t_vars *vars, int fd)
+{
+	vars->map = read_map(fd);
+	if (check_map(vars->map) == 0)
+	{
+		ft_printf("Error\nFail to read map\n");
+		return (NULL);
+	}
+	
+	vars->mlx = mlx_init();
+	vars->size = get_map_size(vars->map);
+	if (vars->size == NULL)
+	{
+		ft_printf("Error\n");
+		return (NULL);
+	}
+	vars->item_left = count_char(vars->map, 'C');
+	vars->mov_count = 0;
+	vars->mov_direction = 0;
+	vars->win = mlx_new_window(vars->mlx, (vars->size->x) * SCALE, (vars->size->y) * SCALE, "so_long");	
+	return (vars);
+}
+
+int	main(int ac, char **av)
+{
+	int	fd;
+	t_vars	vars;
+	//char	*count;
+
+	check_param(ac, av);
+
 	fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
 		ft_printf("Error\nFile not exist\n");
 		return (1);
 	}
+	if (init_vars(&vars, fd) == NULL)
+		exit(0);
+	/*
 	vars.map = read_map(fd);
 	if (check_map(vars.map) == 0)
 		return (1);
@@ -182,11 +213,12 @@ int	main(int ac, char **av)
 	vars.mov_count = 0;
 	vars.mov_direction = 0;
 	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
+	*/
+	close(fd);
 	render_map(&vars);
-	count = ft_itoa(vars.mov_count); //leak
-	count = ft_strjoin("Move ", count);//leaki
-	mlx_string_put(vars.mlx, vars.win, 20, 20, 0xFFFFFF, count);
-	//ft_printf("The number of collectible in this map is %d\n", count_collectible(vars.map));
+	//count = ft_itoa(vars.mov_count); //leak
+	//count = ft_strjoin("Move ", ft_itoa(vars.mov_count));//leaki
+	mlx_string_put(vars.mlx, vars.win, 20, 20, 0xFFFFFF, ft_strjoin("Move ", ft_itoa(vars.mov_count)));
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(vars.mlx);
 }
