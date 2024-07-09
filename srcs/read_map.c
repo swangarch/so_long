@@ -89,7 +89,7 @@ static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak
 }
 
 
-/*this funtion is just for testing, after need to convert it into malloc, so no more need for this*/
+/*this funtion is just for testing, after need to convert it into malloc, so no more need for this
 void	print_map(char **map)
 {
 	int	i;
@@ -101,29 +101,7 @@ void	print_map(char **map)
 		i++;
 	}
 	ft_printf("\n");
-}
-
-t_mapsize	*get_map_size(char **map)
-{
-	int		i;
-	int		j;
-	t_mapsize	*size;
-
-	i = 0;
-	j = 0;
-	size = malloc(sizeof(t_mapsize));
-	if (size == NULL)
-		return (NULL);
-	while (map[i])
-	{
-		while (map[i][j] != '\n')
-			j++;
-		i++;
-	}
-	size->x = j;
-	size->y = i;
-	return (size);
-}
+}*/
 
 char	**read_map(int fd)
 {

@@ -142,37 +142,6 @@ int	is_map_close(char **map)
 	return (1);
 }
 
-t_mapsize	*find_player(char **map)
-{
-	t_mapsize *position;
-	t_mapsize *size;
-	int	i;
-	int	j;
-	
-	size = get_map_size(map);
-	i = 0;
-	position = malloc(sizeof(t_mapsize));
-	if (position == NULL)
-		return (NULL);
-	while (i < size->y)
-	{
-		j = 0;
-		while (j < size->x)
-		{
-			if (map[i][j] == 'P')
-			{
-				position->x = j;
-				position->y = i;
-				return (position);
-			} 
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-
 void	fill_x(char **map, int	x, int y)
 {
 	if (map[y][x + 1] != '1' && map[y][x + 1] != 'X')

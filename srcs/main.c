@@ -10,133 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "so_long.h"
-
-typedef	struct s_vars {
-	void	*mlx;
-	void	*win;
-	char	**map;
-	t_mapsize *size;
-	int		item_left;
-	int		mov_count;
-	int		mov_direction;
-}	t_vars;
-
-void	render_map(t_vars *vars)
-{
-
-	void	*image1;
-	void	*image2;
-	void	*image3;
-	void	*image4;
-	void	*image5;
-	void	*image6;
-	void	*image7;
-	int		w = 60;
-	int		h = 60;	
-	int 	scale = 60;
-
-	// protect not fail when image not exist
-	image1 = mlx_xpm_file_to_image(vars->mlx, "texture/1.xpm", &w, &h);
-	image2 = mlx_xpm_file_to_image(vars->mlx, "texture/0.xpm", &w, &h);
-	image3 = mlx_xpm_file_to_image(vars->mlx, "texture/e.xpm", &w, &h);
-	image4 = mlx_xpm_file_to_image(vars->mlx, "texture/p.xpm", &w, &h);
-	image5 = mlx_xpm_file_to_image(vars->mlx, "texture/c.xpm", &w, &h);
-	image6 = mlx_xpm_file_to_image(vars->mlx, "texture/door_small.xpm", &w, &h);
-	image7 = mlx_xpm_file_to_image(vars->mlx, "texture/pright.xpm", &w, &h);
-	// protect not fail when image not exist
-
-	int	i = 0;
-	int	j = 0;
-	while (i < vars->size->y)
-	{
-		j = 0;
-		while (j < vars->size->x)
-		{
-			if (vars->map[i][j] == '1')
-				mlx_put_image_to_window(vars->mlx, vars->win, image1, j * scale, i * scale);
-			if (vars->map[i][j] == '0')
-				mlx_put_image_to_window(vars->mlx, vars->win, image2, j * scale, i * scale);
-			if (vars->map[i][j] == 'E' && vars->item_left <= 0)
-				mlx_put_image_to_window(vars->mlx, vars->win, image3, j * scale, i * scale);
-			if (vars->map[i][j] == 'P')
-			{
-				if (vars->mov_direction == 0)
-					mlx_put_image_to_window(vars->mlx, vars->win, image4, j * scale, i * scale);
-				else if (vars->mov_direction == 1)
-					mlx_put_image_to_window(vars->mlx, vars->win, image7, j * scale, i * scale);
-			}
-			if (vars->map[i][j] == 'C')
-				mlx_put_image_to_window(vars->mlx, vars->win, image5, j * scale, i * scale);
-			if (vars->map[i][j] == 'E' && vars->item_left > 0)
-				mlx_put_image_to_window(vars->mlx, vars->win, image6, j * scale, i * scale);
-			j++;
-		}
-		i++;
-	}
-}
-
-int	move_character(int keycode, t_vars *vars)
-{
-	t_mapsize	*pos;
-	char	*next_pos;
-	pos = find_player(vars->map);  //check pos is null
-	char	*count;
-
-	if (keycode == 100)
-	{
-		next_pos = &(vars->map)[pos->y][pos->x+1]; 
-		vars->mov_direction = 1;
-	}												//keycode == 100 d
-	else if (keycode == 97)
-	{
-		next_pos = &(vars->map)[pos->y][pos->x-1]; 
-		vars->mov_direction = 0;
-	}												//keycode == 97 a
-	else if (keycode == 119)
-		next_pos = &(vars->map)[pos->y-1][pos->x]; //keycode == 119 w
-	else if (keycode == 115)
-		next_pos = &(vars->map)[pos->y+1][pos->x]; //keycode == 115 s
-	else
-		return (0);
-	if (*next_pos != '1')
-	{
-		if (*next_pos == 'C')
-			vars->item_left--;
-		if (*next_pos == 'E' && vars->item_left <= 0)
-		{
-			mlx_destroy_window(vars->mlx, vars->win);
-			vars->mov_count++;
-			ft_printf("Movement count is %d\n", vars->mov_count);
-			ft_printf("You win\n");
-			exit(0);
-		}
-		if (!(*next_pos == 'E' && vars->item_left > 0))
-		{
-			(vars->map)[pos->y][pos->x] = '0';
-			*next_pos = 'P';
-			vars->mov_count++;
-			render_map(vars);
-			count = ft_itoa(vars->mov_count); //leak
-			count = ft_strjoin("Move ", count);//leak	
-			mlx_string_put(vars->mlx, vars->win, 20, 20, 0xFFFFFF, count);
-			ft_printf("Movement count is %d\n", vars->mov_count);
-		}
-	}
-	return (0);
-}
-
-int	key_control(int keycode, t_vars *vars)
-{
-	if (keycode == 65307)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(0);
-	}	
-	move_character(keycode, vars);
-	return (0);
-}
 
 void	check_param(int ac, char **av)
 {
@@ -163,7 +37,6 @@ t_vars *init_vars(t_vars *vars, int fd)
 	vars->map = read_map(fd);
 	if (check_map(vars->map) == 0)
 	{
-		ft_printf("Error\nFail to read map\n");
 		return (NULL);
 	}
 	
@@ -185,7 +58,6 @@ int	main(int ac, char **av)
 {
 	int	fd;
 	t_vars	vars;
-	//char	*count;
 
 	check_param(ac, av);
 
@@ -197,28 +69,11 @@ int	main(int ac, char **av)
 	}
 	if (init_vars(&vars, fd) == NULL)
 		exit(0);
-	/*
-	vars.map = read_map(fd);
-	if (check_map(vars.map) == 0)
-		return (1);
 	
-	vars.mlx = mlx_init();
-	vars.size = get_map_size(vars.map);
-	if (vars.size == NULL)
-	{
-		ft_printf("Error\n");
-		return (1);
-	}
-	vars.item_left = count_char(vars.map, 'C');
-	vars.mov_count = 0;
-	vars.mov_direction = 0;
-	vars.win = mlx_new_window(vars.mlx, (vars.size->x) * scale, (vars.size->y) * scale, "so_long");	
-	*/
 	close(fd);
 	render_map(&vars);
-	//count = ft_itoa(vars.mov_count); //leak
-	//count = ft_strjoin("Move ", ft_itoa(vars.mov_count));//leaki
 	mlx_string_put(vars.mlx, vars.win, 20, 20, 0xFFFFFF, ft_strjoin("Move ", ft_itoa(vars.mov_count)));
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_loop(vars.mlx);
+	return (0);
 }

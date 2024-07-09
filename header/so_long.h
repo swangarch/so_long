@@ -14,12 +14,23 @@
 # define SO_LONG_H
 # define SCALE 60
 # include "libft.h"
+# include "mlx.h"
 
 typedef	struct s_mapsize
 {
 	int	x;
 	int	y;
 }	t_mapsize;
+
+typedef	struct s_vars {
+	void	*mlx;
+	void	*win;
+	char	**map;
+	t_mapsize *size;
+	int		item_left;
+	int		mov_count;
+	int		mov_direction;
+}	t_vars;
 
 char	**read_map(int fd);
 void	print_map(char **map);
@@ -28,5 +39,8 @@ t_mapsize       *get_map_size(char **map);
 int	count_char(char **map, char ch);
 t_mapsize	*find_player(char **map);
 void	free_map(char **map);
+void	render_map(t_vars *vars);
+int	key_control(int keycode, t_vars *vars);
+int	move_character(int keycode, t_vars *vars);
 
 #endif
