@@ -24,15 +24,14 @@ void	check_param(int ac, char **av)
 		ft_putstr_fd("Error\nToo much arguments\n", 2);
 		exit(0);
 	}
-
-	if (!ft_strnstr(av[1], ".ber",ft_strlen(av[1])))//check if map name is valid
+	if (!ft_strnstr(av[1], ".ber", ft_strlen(av[1])))
 	{
 		ft_putstr_fd("Error\nInvalid filename\n", 2);
 		exit(0);
 	}
 }
 
-t_vars *init_vars(t_vars *vars, int fd)
+t_vars	*init_vars(t_vars *vars, int fd)
 {
 	vars->map = read_map(fd);
 	if (!vars->map || check_map(vars->map) == 0)
@@ -55,13 +54,14 @@ t_vars *init_vars(t_vars *vars, int fd)
 	vars->mov_count = 0;
 	vars->frame = 0;
 	vars->mov_direction = 0;
-	vars->win = mlx_new_window(vars->mlx, (vars->size->x) * SCALE, (vars->size->y) * SCALE, "so_long");	
+	vars->win = mlx_new_window(vars->mlx, (vars->size->x) * SCALE, \
+		(vars->size->y) * SCALE, "so_long");
 	return (vars);
 }
 
 int	main(int ac, char **av)
 {
-	int	fd;
+	int		fd;
 	t_vars	vars;
 
 	check_param(ac, av);

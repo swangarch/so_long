@@ -29,8 +29,9 @@ static	int	char_in_str(char *s, char c)
 static	int	is_valid_line(char *s)
 {
 	int	i;
-	char	*charset = "10CPEM";
+	char	*charset;
 
+	charset = "10CPEM";
 	i = 0;
 	while (s[i])
 	{

@@ -14,8 +14,8 @@
 
 t_mapsize	*get_map_size(char **map)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_mapsize	*size;
 
 	i = 0;
@@ -36,11 +36,11 @@ t_mapsize	*get_map_size(char **map)
 
 t_mapsize	*find_player(char **map)
 {
-	t_mapsize *position;
-	t_mapsize *size;
-	int	i;
-	int	j;
-	
+	t_mapsize	*position;
+	t_mapsize	*size;
+	int			i;
+	int			j;
+
 	size = get_map_size(map);
 	i = 0;
 	position = malloc(sizeof(t_mapsize));
@@ -57,7 +57,7 @@ t_mapsize	*find_player(char **map)
 				position->y = i;
 				free(size);
 				return (position);
-			} 
+			}
 			j++;
 		}
 		i++;

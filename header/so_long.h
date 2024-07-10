@@ -68,4 +68,10 @@ void	render_player(t_vars *vars, int i, int j, t_texture	*textures);
 void	render_exit(t_vars *vars, int i, int j, t_texture *textures);
 void	render_item(t_vars *vars, int i, int j, t_texture *textures);
 
+int	check_direction(int keycode, t_vars *vars, char	**next_pos, t_mapsize *pos);
+void collect_item(t_vars *vars, char *next_pos);
+int	win_game(t_vars *vars, char	*next_pos);
+int	move_forward(t_vars *vars, t_mapsize *pos, char *next_pos);
+int	move_character(int keycode, t_vars *vars);
+
 #endif

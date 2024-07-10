@@ -67,7 +67,7 @@ int	update_frame(t_vars *vars)
 	time_t current_time;
 
 	time(&current_time);
-	if (current_time - last_time >= 0.3)
+	if (current_time - last_time >= 0.2)
 	{
 		vars->frame = current_time % 3;
 		render_map(vars);
