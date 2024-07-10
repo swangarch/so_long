@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   check_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static	int	is_rectangle(char **map)
 {
@@ -69,9 +69,10 @@ int	is_map_close(char **map, int i, int j)
 {
 	t_mapsize *size;
 
+
 	size = get_map_size(map);
 	if (size == NULL)
-		return (0);// protection when it is null
+		return (0);
 	while (i < size->y)
 	{
 		j = 0;

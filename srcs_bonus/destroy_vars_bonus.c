@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   show_step.c                                        :+:      :+:    :+:   */
+/*   destroy_vars_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 16:27:46 by shuwang           #+#    #+#             */
-/*   Updated: 2024/07/09 16:27:49 by shuwang          ###   ########.fr       */
+/*   Created: 2024/07/09 16:55:50 by shuwang           #+#    #+#             */
+/*   Updated: 2024/07/09 16:55:55 by shuwang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-void	show_step_on_screen(t_vars *vars)////////////////////////BONUS
+void	free_map(char **map)
 {
-	char	*count;
-	char	*str;
+	int	i;
 
-	count = ft_itoa(vars->mov_count); //leak protection
-	if (count == NULL)
-		return ;
-	str = ft_strjoin("Move ", count);//leak	
-	mlx_string_put(vars->mlx, vars->win, 20, 20, 0xFFFFFF, str);
-	free(str);
-	free(count);
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
+void	destroy_vars(t_vars *vars)
+{
+	free_map(vars->map);
+	free(vars->size);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_control.c                                     :+:      :+:    :+:   */
+/*   game_control_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	check_direction(int keycode, t_vars *vars, char	**next_pos, t_mapsize *pos)
 {
@@ -49,7 +49,6 @@ int	win_game(t_vars *vars, char	*next_pos)
 {
 	if (*next_pos == 'E' && vars->item_left <= 0)
 	{
-		//mlx_destroy_window(vars->mlx, vars->win);
 		vars->mov_count++;
 		ft_printf("Move %d\n", vars->mov_count);
 		ft_printf("Congratulations, you've delivered all the cakes.\n");
@@ -94,7 +93,7 @@ int	move_character(int keycode, t_vars *vars)
 {
 	t_mapsize	*pos;
 	char	*next_pos;
-	pos = find_player(vars->map);  //check pos is null
+	pos = find_player(vars->map, 0, 0);  //check pos is null
 	if (pos == NULL)
 		return (-1);
 

@@ -51,7 +51,7 @@ void	print_map(char **map);
 int     check_map(char **map);
 t_mapsize       *get_map_size(char **map);
 int	count_char(char **map, char ch);
-t_mapsize	*find_player(char **map);
+t_mapsize	*find_player(char **map, int i, int j);
 void	free_map(char **map);
 void	render_map(t_vars *vars);
 int	key_control(int keycode, t_vars *vars);

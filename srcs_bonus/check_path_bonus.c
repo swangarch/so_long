@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_path.c                                       :+:      :+:    :+:   */
+/*   check_path_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	fill_x(char **map, int	x, int y)
 {
@@ -65,7 +65,7 @@ int	is_path_exist(char **map)
 	copymap = dup_map(map);
 	if (copymap == NULL)
 		return (0);
-	pos = find_player(copymap);
+	pos = find_player(copymap, 0, 0);
 	if (pos == NULL)
 	{
 		free_map(copymap);

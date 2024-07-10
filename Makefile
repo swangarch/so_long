@@ -18,9 +18,16 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = srcs/main.c srcs/check_map.c srcs/read_map.c srcs/render_map.c srcs/find_player.c srcs/game_control.c srcs/show_step.c srcs/check_path.c srcs/destroy_vars.c srcs/check_char.c
+SRCS = srcs/main.c srcs/check_map.c srcs/read_map.c srcs/render_map.c \
+	srcs/find_player.c srcs/game_control.c srcs/show_step.c srcs/check_path.c \
+	srcs/destroy_vars.c srcs/check_char.c srcs/render_element.c
 
-SRCS_BONUS = srcs_bonus/main.c srcs_bonus/check_map.c srcs_bonus/read_map.c srcs_bonus/render_map.c srcs_bonus/find_player.c srcs_bonus/game_control.c srcs_bonus/show_step.c srcs_bonus/check_path.c srcs_bonus/destroy_vars.c srcs_bonus/check_char.c
+SRCS_BONUS = srcs_bonus/main_bonus.c srcs_bonus/check_map_bonus.c \
+	srcs_bonus/read_map_bonus.c srcs_bonus/render_map_bonus.c \
+	srcs_bonus/find_player_bonus.c srcs_bonus/game_control_bonus.c \
+	srcs_bonus/show_step_bonus.c srcs_bonus/check_path_bonus.c \
+	srcs_bonus/destroy_vars_bonus.c srcs_bonus/check_char_bonus.c \
+	srcs_bonus/render_element_bonus.c
 	
 LIBFT = ./libft
 

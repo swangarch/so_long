@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_map.c                                         :+:      :+:    :+:   */
+/*   read_map_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static	t_list	*map_tolist(int	fd)
 {
@@ -63,7 +63,7 @@ static void	ft_lst_freenode(t_list **lst)
 	*lst = NULL;
 }
 
-static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak risk when fail*/
+static	char	**lst_tomap(t_list *lst)
 {
 	char	**map;
 	int	num_line;
@@ -84,7 +84,7 @@ static	char	**lst_tomap(t_list *lst) /*normally this fonction will not have leak
 	    i++;
 	}	
 	map[i] = NULL;
-	ft_lst_freenode(&lst); //here use a function to clear the list but keep content
+	ft_lst_freenode(&lst); /*here use a function to clear the list but keep content*/
 	return (map);
 }
 
@@ -93,7 +93,7 @@ char	**read_map(int fd)
 	return (lst_tomap(map_tolist(fd)));
 }
 
-/*this funtion is just for testing, after need to convert it into malloc, so no more need for this
+/*this funtion is just for testing, no more need for this
 void	print_map(char **map)
 {
 	int	i;
