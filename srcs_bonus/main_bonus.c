@@ -35,15 +35,19 @@ void	check_param(int ac, char **av)
 t_vars *init_vars(t_vars *vars, int fd)
 {
 	vars->map = read_map(fd);
-	if (check_map(vars->map) == 0)
+	if (!vars->map || check_map(vars->map) == 0)
 	{
+		vars->size = NULL;
+		vars->win = NULL;
+		vars->mlx = NULL;
+		destroy_vars(vars);
 		return (NULL);
 	}
-	
 	vars->mlx = mlx_init();
 	vars->size = get_map_size(vars->map);
 	if (vars->size == NULL)
 	{
+		destroy_vars(vars);
 		ft_putstr_fd("Error\nFailed calculate map size\n", 2);
 		return (NULL);
 	}
@@ -55,7 +59,8 @@ t_vars *init_vars(t_vars *vars, int fd)
 	return (vars);
 }
 
-#include <time.h>////////////////////////BONUS
+
+/*---------------BONUS-------------------*/
 int	update_frame(t_vars *vars)
 {
 	static time_t last_time = 0;
@@ -69,7 +74,8 @@ int	update_frame(t_vars *vars)
 		last_time = current_time;
 	}
 	return (0);
-}////////////////////////ONLY BONUS
+}
+/*---------------BONUS-------------------*/
 
 int	main(int ac, char **av)
 {
@@ -84,12 +90,15 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (init_vars(&vars, fd) == NULL)
-		exit(0);
+	{
+		ft_putstr_fd("Error\nInitialization fail\n", 2);
+		return (1);
+	}
 	close(fd);
 	render_map(&vars);
 	mlx_key_hook(vars.win, key_control, &vars);
 	mlx_hook(vars.win, 17, 0, cross_press, &vars);
-	mlx_loop_hook(vars.mlx, update_frame, &vars);  ////////////////////BONUS
+	mlx_loop_hook(vars.mlx, update_frame, &vars); /*---------------BONUS-------------------*/
 	mlx_loop(vars.mlx);
 	return (0);
 }

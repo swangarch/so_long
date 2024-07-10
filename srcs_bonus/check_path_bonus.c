@@ -76,7 +76,7 @@ int	is_path_exist(char **map)
 	{
         free(pos);
 		free_map(copymap);	
-		return (0);// free dup
+		return (0);
 	}
 	free_map(copymap);
     free(pos);

@@ -14,22 +14,22 @@
 
 void	fill_x(char **map, int	x, int y)
 {
-	if (map[y][x + 1] != '1' && map[y][x + 1] != 'X' && map[y][x + 1] != 'M') //Bonus
+	if (map[y][x + 1] != '1' && map[y][x + 1] != 'X')
 	{
 		map[y][x + 1] = 'X';
 		fill_x(map, x + 1, y);
 	}
-	if (map[y][x - 1] != '1' && map[y][x - 1] != 'X' && map[y][x - 1] != 'M') //Bonus
+	if (map[y][x - 1] != '1' && map[y][x - 1] != 'X')
 	{
 		map[y][x - 1] = 'X';
 		fill_x(map, x - 1, y);
 	}
-	if (map[y + 1][x] != '1' && map[y + 1][x] != 'X' && map[y + 1][x] != 'M') //Bonus
+	if (map[y + 1][x] != '1' && map[y + 1][x] != 'X')
 	{
 		map[y + 1][x] = 'X';
 		fill_x(map, x, y + 1);
 	}
-	if (map[y - 1][x] != '1' && map[y - 1][x] != 'X' && map[y - 1][x] != 'M') //Bonus
+	if (map[y - 1][x] != '1' && map[y - 1][x] != 'X')
 	{
 		map[y - 1][x] = 'X';
 		fill_x(map, x, y - 1);

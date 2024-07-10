@@ -40,11 +40,11 @@ void	destroy_textures(t_vars *vars, t_texture *textures)
 	mlx_destroy_image(vars->mlx, textures->image_m);
 }
 
-void	render_map(t_vars *vars)  /////should send the textures as a input in order to free at the end
+void	render_map(t_vars *vars)
 {
 	t_texture	textures;
 
-	load_textures(vars, &textures, SCALE, SCALE); ////????????????what w and h means // protect not fail when image not exist ??need?
+	load_textures(vars, &textures, SCALE, SCALE); 
 	int	i = 0;
 	int	j = 0;
 	while (i < vars->size->y)
@@ -61,6 +61,6 @@ void	render_map(t_vars *vars)  /////should send the textures as a input in order
 		}
 		i++;
 	}
-	show_step_on_screen(vars); ///////////////BONUS
-	destroy_textures(vars, &textures); //need to fix this function
+	show_step_on_screen(vars);/*---------------BONUS-------------------*/
+	destroy_textures(vars, &textures);
 }

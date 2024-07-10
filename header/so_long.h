@@ -56,7 +56,6 @@ void	free_map(char **map);
 void	render_map(t_vars *vars);
 int	key_control(int keycode, t_vars *vars);
 int	move_character(int keycode, t_vars *vars);
-void	show_step_on_screen(t_vars *vars);
 int	is_path_exist(char **map);
 int	is_allchar_valid(char **map);
 void	destroy_vars(t_vars *vars);
@@ -68,6 +67,5 @@ void	render_background(t_vars *vars, int i, int j, t_texture	*textures);
 void	render_player(t_vars *vars, int i, int j, t_texture	*textures);
 void	render_exit(t_vars *vars, int i, int j, t_texture *textures);
 void	render_item(t_vars *vars, int i, int j, t_texture *textures);
-void	render_enemy(t_vars *vars, int i, int j, t_texture	*textures);
 
 #endif

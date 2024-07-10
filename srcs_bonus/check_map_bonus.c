@@ -69,7 +69,6 @@ int	is_map_close(char **map, int i, int j)
 {
 	t_mapsize *size;
 
-
 	size = get_map_size(map);
 	if (size == NULL)
 		return (0);

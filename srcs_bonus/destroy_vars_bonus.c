@@ -28,5 +28,6 @@ void	free_map(char **map)
 void	destroy_vars(t_vars *vars)
 {
 	free_map(vars->map);
-	free(vars->size);
+	if (vars->size)
+		free(vars->size);
 }

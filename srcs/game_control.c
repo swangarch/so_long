@@ -67,25 +67,7 @@ int	move_forward(t_vars *vars, t_mapsize *pos, char *next_pos)
 		*next_pos = 'P';
 		vars->mov_count++; /*step ++*/
 		render_map(vars); 
-		show_step_on_screen(vars);//////Only for bonus
 		ft_printf("Move %d\n", vars->mov_count);
-	}
-	return (0);
-}
-
-int	touch_enemy(t_vars *vars, t_mapsize *pos, char *next_pos)  ////////////BONUS
-{
-	if (*next_pos == 'M' ) /*move action BONUS*/
-	{
-		(vars->map)[pos->y][pos->x] = '0';
-		*next_pos = 'P';
-		vars->mov_count++; /*step ++*/
-		render_map(vars); 
-		show_step_on_screen(vars);//////Only for bonus
-		ft_printf("You lose\n");
-		free(pos);
-		destroy_vars(vars);
-		exit(0);
 	}
 	return (0);
 }
@@ -112,7 +94,6 @@ int	move_character(int keycode, t_vars *vars)
 			exit(0);
 		}
 		collect_item(vars, next_pos);
-		touch_enemy(vars, pos, next_pos); /////////////////////BONUS
 		move_forward(vars, pos, next_pos);
 	}
 	free(pos);

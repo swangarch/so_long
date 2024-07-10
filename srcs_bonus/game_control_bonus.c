@@ -50,7 +50,6 @@ int	win_game(t_vars *vars, char	*next_pos)
 	if (*next_pos == 'E' && vars->item_left <= 0)
 	{
 		vars->mov_count++;
-		ft_printf("Move %d\n", vars->mov_count);
 		ft_printf("Congratulations, you've delivered all the cakes.\n");
 		destroy_vars(vars);
 		return (1);
@@ -60,27 +59,27 @@ int	win_game(t_vars *vars, char	*next_pos)
 
 int	move_forward(t_vars *vars, t_mapsize *pos, char *next_pos)
 {
-	if (!(*next_pos == 'E' && vars->item_left > 0)) /*move action*/
+	if (!(*next_pos == 'E' && vars->item_left > 0)) 
 	{
 		(vars->map)[pos->y][pos->x] = '0';
 		*next_pos = 'P';
-		vars->mov_count++; /*step ++*/
+		vars->mov_count++;
 		render_map(vars); 
-		show_step_on_screen(vars);//////Only for bonus
-		ft_printf("Move %d\n", vars->mov_count);
+		show_step_on_screen(vars);/*---------------BONUS-------------------*/
 	}
 	return (0);
 }
 
-int	touch_enemy(t_vars *vars, t_mapsize *pos, char *next_pos)  ////////////BONUS
+/*---------------BONUS-------------------*/
+int	touch_enemy(t_vars *vars, t_mapsize *pos, char *next_pos)  
 {
-	if (*next_pos == 'M' ) /*move action BONUS*/
+	if (*next_pos == 'M' ) 
 	{
 		(vars->map)[pos->y][pos->x] = '0';
 		*next_pos = 'P';
-		vars->mov_count++; /*step ++*/
+		vars->mov_count++;
 		render_map(vars); 
-		show_step_on_screen(vars);//////Only for bonus
+		show_step_on_screen(vars);/*---------------BONUS-------------------*/
 		ft_printf("You lose\n");
 		free(pos);
 		destroy_vars(vars);
@@ -88,15 +87,15 @@ int	touch_enemy(t_vars *vars, t_mapsize *pos, char *next_pos)  ////////////BONUS
 	}
 	return (0);
 }
+/*---------------BONUS-------------------*/
 
 int	move_character(int keycode, t_vars *vars)
 {
 	t_mapsize	*pos;
 	char	*next_pos;
-	pos = find_player(vars->map, 0, 0);  //check pos is null
+	pos = find_player(vars->map, 0, 0);
 	if (pos == NULL)
 		return (-1);
-
 	next_pos = NULL;
 	if (!check_direction(keycode, vars, &next_pos, pos))
 	{
@@ -111,7 +110,7 @@ int	move_character(int keycode, t_vars *vars)
 			exit(0);
 		}
 		collect_item(vars, next_pos);
-		touch_enemy(vars, pos, next_pos); /////////////////////BONUS
+		touch_enemy(vars, pos, next_pos); /*---------------BONUS-------------------*/
 		move_forward(vars, pos, next_pos);
 	}
 	free(pos);

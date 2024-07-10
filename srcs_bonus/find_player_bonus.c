@@ -40,9 +40,14 @@ t_mapsize	*find_player(char **map, int i, int j)
 	t_mapsize *size;
 	
 	size = get_map_size(map);
+	if (size == NULL)
+		return (NULL);
 	position = malloc(sizeof(t_mapsize));
 	if (position == NULL)
+	{
+		free(size);
 		return (NULL);
+	}
 	while (i < size->y)
 	{
 		j = 0;

@@ -12,16 +12,18 @@
 
 #include "so_long_bonus.h"
 
-void	show_step_on_screen(t_vars *vars)////////////////////////BONUS
+/*---------------BONUS-------------------*/
+void	show_step_on_screen(t_vars *vars)
 {
 	char	*count;
 	char	*str;
 
-	count = ft_itoa(vars->mov_count); //leak protection
+	count = ft_itoa(vars->mov_count);
 	if (count == NULL)
 		return ;
-	str = ft_strjoin("Move ", count);//leak	
+	str = ft_strjoin("Move ", count);
 	mlx_string_put(vars->mlx, vars->win, 20, 20, 0xFFFFFF, str);
 	free(str);
 	free(count);
 }
+/*---------------BONUS-------------------*/

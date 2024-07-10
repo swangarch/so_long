@@ -19,7 +19,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = srcs/main.c srcs/check_map.c srcs/read_map.c srcs/render_map.c \
-	srcs/find_player.c srcs/game_control.c srcs/show_step.c srcs/check_path.c \
+	srcs/find_player.c srcs/game_control.c srcs/check_path.c \
 	srcs/destroy_vars.c srcs/check_char.c srcs/render_element.c
 
 SRCS_BONUS = srcs_bonus/main_bonus.c srcs_bonus/check_map_bonus.c \
