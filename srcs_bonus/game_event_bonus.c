@@ -80,7 +80,7 @@ int	touch_enemy(t_vars *vars, t_mapsize *pos, char *next_pos)
 		vars->mov_count++;
 		render_map(vars); 
 		show_step_on_screen(vars);/*---------------BONUS-------------------*/
-		ft_printf("You lose\n");
+		ft_printf("Cat wakes up, eats all the cakes, you lose.\n");
 		free(pos);
 		destroy_vars(vars);
 		exit(0);

@@ -63,7 +63,7 @@ t_vars *init_vars(t_vars *vars, int fd)
 /*---------------BONUS-------------------*/
 int	update_frame(t_vars *vars)
 {
-	static time_t last_time = 0;
+	static time_t last_time;
 	time_t current_time;
 
 	time(&current_time);

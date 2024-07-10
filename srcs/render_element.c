@@ -60,10 +60,10 @@ void	render_item(t_vars *vars, int i, int j, t_texture *textures)
 				textures->image_c, j * SCALE, i * SCALE);
 	}
 }
-
+/*
 void	render_enemy(t_vars *vars, int i, int j, t_texture	*textures)
 {
 	if (vars->map[i][j] == 'M')
 		mlx_put_image_to_window(vars->mlx, vars->win, \
 			textures->image_m, j * SCALE, i * SCALE);
-}
+}*/

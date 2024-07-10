@@ -55,5 +55,12 @@ void	render_item(t_vars *vars, int i, int j, t_texture *textures)
 void	render_enemy(t_vars *vars, int i, int j, t_texture	*textures)
 {
 	if (vars->map[i][j] == 'M')
-		mlx_put_image_to_window(vars->mlx, vars->win, textures->image_m, j * SCALE, i * SCALE);
+	{
+		if (vars->frame == 0)
+			mlx_put_image_to_window(vars->mlx, vars->win, textures->image_m3, j * SCALE, i * SCALE);
+		else if (vars->frame == 1)
+			mlx_put_image_to_window(vars->mlx, vars->win, textures->image_m2, j * SCALE, i * SCALE);
+		else
+			mlx_put_image_to_window(vars->mlx, vars->win, textures->image_m, j * SCALE, i * SCALE);
+	}
 }

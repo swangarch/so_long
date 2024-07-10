@@ -25,5 +25,6 @@ valgrind --leak-check=full --track-origins=yes ./so_long_bonus maps/map04.ber
 valgrind --leak-check=full --track-origins=yes ./so_long_bonus maps/map05.ber
 valgrind --leak-check=full --track-origins=yes ./so_long_bonus maps/map06.ber
 valgrind --leak-check=full --track-origins=yes ./so_long_bonus maps/map07.ber
+valgrind --leak-check=full --track-origins=yes ./so_long_bonus maps/map08.ber
 
 echo "______________________________________________Done"

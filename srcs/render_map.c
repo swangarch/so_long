@@ -19,7 +19,7 @@ void	load_textures(t_vars *vars, t_texture *textures, int w, int h)
 	textures->image_0 = mlx_xpm_file_to_image \
 		(vars->mlx, "texture/0.xpm", &w, &h);
 	textures->image_e = mlx_xpm_file_to_image \
-		(vars->mlx, "texture/e.xpm", &w, &h);
+		(vars->mlx, "texture/e2.xpm", &w, &h);
 	textures->image_pl = mlx_xpm_file_to_image \
 		(vars->mlx, "texture/p.xpm", &w, &h);
 	textures->image_c = mlx_xpm_file_to_image \
@@ -29,11 +29,11 @@ void	load_textures(t_vars *vars, t_texture *textures, int w, int h)
 	textures->image_c3 = mlx_xpm_file_to_image \
 		(vars->mlx, "texture/c3.xpm", &w, &h);
 	textures->image_e2 = mlx_xpm_file_to_image \
-		(vars->mlx, "texture/door_small.xpm", &w, &h);
+		(vars->mlx, "texture/e.xpm", &w, &h);
 	textures->image_pr = mlx_xpm_file_to_image \
 		(vars->mlx, "texture/pright.xpm", &w, &h);
 	textures->image_m = mlx_xpm_file_to_image \
-		(vars->mlx, "texture/m.xpm", &w, &h);
+		(vars->mlx, "texture/m1.xpm", &w, &h);
 }
 
 void	destroy_textures(t_vars *vars, t_texture *textures)

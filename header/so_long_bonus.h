@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shuwang <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
 # define SCALE 60
 # include "libft.h"
 # include "mlx.h"
@@ -28,6 +28,8 @@ typedef	struct s_texture {
 	void	*image_e2;
 	void	*image_pr;
 	void	*image_m;
+	void	*image_m2;
+	void	*image_m3;
 } t_texture;
 
 typedef	struct s_mapsize
