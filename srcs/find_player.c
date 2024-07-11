@@ -42,6 +42,8 @@ t_mapsize	*find_player(char **map)
 	int			j;
 
 	size = get_map_size(map);
+	if (size == NULL)
+		return (NULL);
 	i = 0;
 	position = malloc(sizeof(t_mapsize));
 	if (position == NULL)
