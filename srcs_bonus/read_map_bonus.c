@@ -12,7 +12,7 @@
 
 #include "so_long_bonus.h"
 
-static	t_list	*map_tolist(int	fd)
+static t_list	*map_tolist(int fd)
 {
 	t_list	*lst;
 	t_list	*head;
@@ -33,7 +33,7 @@ static	t_list	*map_tolist(int	fd)
 static int	count_map_line(t_list *lst)
 {
 	t_list	*curr;
-	int	count;
+	int		count;
 
 	count = 0;
 	curr = lst;
@@ -66,12 +66,12 @@ static void	ft_lst_freenode(t_list **lst)
 static	char	**lst_tomap(t_list *lst)
 {
 	char	**map;
-	int	num_line;
-	int	i;
+	int		num_line;
+	int		i;
 	t_list	*curr;
 
 	num_line = 0;
-	curr = lst;	
+	curr = lst;
 	num_line = count_map_line(lst);
 	map = malloc(sizeof(char *) * (1 + num_line));
 	if (map == NULL)
@@ -81,10 +81,10 @@ static	char	**lst_tomap(t_list *lst)
 	{
 		map[i] = (char *)(curr->content);
 		curr = curr->next;
-	    i++;
-	}	
+		i++;
+	}
 	map[i] = NULL;
-	ft_lst_freenode(&lst); /*here use a function to clear the list but keep content*/
+	ft_lst_freenode(&lst);
 	return (map);
 }
 

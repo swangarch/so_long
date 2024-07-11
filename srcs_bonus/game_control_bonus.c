@@ -15,7 +15,8 @@
 int	move_character(int keycode, t_vars *vars)
 {
 	t_mapsize	*pos;
-	char	*next_pos;
+	char		*next_pos;
+
 	pos = find_player(vars->map, 0, 0);
 	if (pos == NULL)
 		return (-1);
@@ -33,7 +34,7 @@ int	move_character(int keycode, t_vars *vars)
 			exit(0);
 		}
 		collect_item(vars, next_pos);
-		touch_enemy(vars, pos, next_pos); /*---------------BONUS-------------------*/
+		touch_enemy(vars, pos, next_pos);
 		move_forward(vars, pos, next_pos);
 	}
 	free(pos);

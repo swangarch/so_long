@@ -58,16 +58,17 @@ int	count_char(char **map, char ch)
 	return (c);
 }
 
-static int correct_cpe(char **map)
+static int	correct_cpe(char **map)
 {
-	if (count_char(map, 'P') == 1 && count_char(map, 'E') == 1 && count_char(map, 'C') > 0)
+	if (count_char(map, 'P') == 1 && \
+		count_char(map, 'E') == 1 && count_char(map, 'C') > 0)
 		return (1);
 	return (0);
 }
 
 int	is_map_close(char **map, int i, int j)
 {
-	t_mapsize *size;
+	t_mapsize	*size;
 
 	size = get_map_size(map);
 	if (size == NULL)

@@ -14,8 +14,8 @@
 
 t_mapsize	*get_map_size(char **map)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 	t_mapsize	*size;
 
 	i = 0;
@@ -36,9 +36,9 @@ t_mapsize	*get_map_size(char **map)
 
 t_mapsize	*find_player(char **map, int i, int j)
 {
-	t_mapsize *position;
-	t_mapsize *size;
-	
+	t_mapsize	*position;
+	t_mapsize	*size;
+
 	size = get_map_size(map);
 	if (size == NULL)
 		return (NULL);
@@ -59,7 +59,7 @@ t_mapsize	*find_player(char **map, int i, int j)
 				position->y = i;
 				free(size);
 				return (position);
-			} 
+			}
 			j++;
 		}
 		i++;
