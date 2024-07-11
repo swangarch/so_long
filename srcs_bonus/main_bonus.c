@@ -90,10 +90,7 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	if (init_vars(&vars, fd) == NULL)
-	{
-		ft_putstr_fd("Error\nInitialization fail\n", 2);
 		return (1);
-	}
 	close(fd);
 	render_map(&vars);
 	mlx_key_hook(vars.win, key_control, &vars);
