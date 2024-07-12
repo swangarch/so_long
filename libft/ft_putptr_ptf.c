@@ -39,7 +39,7 @@ static	int	ft_ptr_base(uintptr_t n, char *base, int count)
 		count++;
 	}
 	return (count);
-}		
+}
 
 int	ft_putptr_ptf(void *p)
 {

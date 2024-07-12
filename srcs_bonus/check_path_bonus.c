@@ -83,3 +83,57 @@ int	is_path_exist(char **map)
 	free(pos);
 	return (1);
 }
+
+void	fill_x_skip_e(char **map, int x, int y)
+{
+	if (map[y][x + 1] != '1' && map[y][x + 1] != 'X' && map[y][x + 1] != 'M' \
+		&& map[y][x + 1] != 'E')
+	{
+		map[y][x + 1] = 'X';
+		fill_x_skip_e(map, x + 1, y);
+	}
+	if (map[y][x - 1] != '1' && map[y][x - 1] != 'X' && map[y][x - 1] != 'M' \
+		&& map[y][x - 1] != 'E')
+	{
+		map[y][x - 1] = 'X';
+		fill_x_skip_e(map, x - 1, y);
+	}
+	if (map[y + 1][x] != '1' && map[y + 1][x] != 'X' && map[y + 1][x] != 'M' \
+		&& map[y + 1][x] != 'E')
+	{
+		map[y + 1][x] = 'X';
+		fill_x_skip_e(map, x, y + 1);
+	}
+	if (map[y - 1][x] != '1' && map[y - 1][x] != 'X' && map[y - 1][x] != 'M' \
+		&& map[y - 1][x] != 'E')
+	{
+		map[y - 1][x] = 'X';
+		fill_x_skip_e(map, x, y - 1);
+	}
+}
+
+int	is_path_exist_e(char **map)
+{
+	t_mapsize	*pos;
+	char		**copymap;
+
+	copymap = dup_map(map);
+	if (copymap == NULL)
+		return (0);
+	pos = find_player(copymap, 0, 0);
+	if (pos == NULL)
+	{
+		free_map(copymap);
+		return (0);
+	}
+	fill_x_skip_e(copymap, pos->x, pos->y);
+	if (count_char(copymap, 'C') > 0 || count_char(copymap, 'P') > 0)
+	{
+		free(pos);
+		free_map(copymap);
+		return (0);
+	}
+	free_map(copymap);
+	free(pos);
+	return (1);
+}

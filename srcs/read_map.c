@@ -82,7 +82,7 @@ static	char	**lst_tomap(t_list *lst)
 		map[i] = (char *)(curr->content);
 		curr = curr->next;
 		i++;
-	}	
+	}
 	map[i] = NULL;
 	ft_lst_freenode(&lst);
 	return (map);

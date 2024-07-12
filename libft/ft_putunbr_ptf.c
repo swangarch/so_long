@@ -22,7 +22,7 @@ int	ft_putunbr_ptf(unsigned int n, int count)
 		n = n / 10;
 		count = ft_putunbr_ptf(n, count + 1);
 		write(1, &r, 1);
-	}	
+	}
 	else if (n <= 9)
 	{
 		r = n + '0';

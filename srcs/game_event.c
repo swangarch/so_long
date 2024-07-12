@@ -19,7 +19,7 @@ int	check_direction(int keycode, t_vars *vars, char	**next_pos, t_mapsize *pos)
 		*next_pos = &(vars->map)[pos->y][pos->x + 1];
 		vars->mov_direction = 1;
 		return (1);
-	}						
+	}
 	else if (keycode == 97)
 	{
 		*next_pos = &(vars->map)[pos->y][pos->x - 1];
@@ -42,7 +42,7 @@ int	check_direction(int keycode, t_vars *vars, char	**next_pos, t_mapsize *pos)
 void	collect_item(t_vars *vars, char *next_pos)
 {
 	if (*next_pos == 'C')
-			vars->item_left--;
+		vars->item_left--;
 }
 
 int	win_game(t_vars *vars, char	*next_pos)

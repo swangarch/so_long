@@ -17,7 +17,8 @@
 # include "mlx.h"
 # include <time.h>
 
-typedef struct s_texture {
+typedef struct s_texture
+{
 	void	*image_1;
 	void	*image_0;
 	void	*image_e;
@@ -38,7 +39,8 @@ typedef struct s_mapsize
 	int	y;
 }	t_mapsize;
 
-typedef struct s_vars {
+typedef struct s_vars
+{
 	void		*mlx;
 	void		*win;
 	char		**map;
@@ -61,6 +63,7 @@ int			key_control(int keycode, t_vars *vars);
 int			move_character(int keycode, t_vars *vars);
 void		show_step_on_screen(t_vars *vars);
 int			is_path_exist(char **map);
+int			is_path_exist_e(char **map);
 int			is_allchar_valid(char **map);
 void		destroy_vars(t_vars *vars);
 void		destroy_textures(t_vars *vars, t_texture *textures);

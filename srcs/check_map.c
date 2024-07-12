@@ -102,7 +102,7 @@ int	check_map(char **map)
 		return (0);
 	}
 	if (!is_allchar_valid(map))
-	{	
+	{
 		ft_putstr_fd("Error\nMap has not legal char.\n", 2);
 		return (0);
 	}
@@ -111,7 +111,7 @@ int	check_map(char **map)
 		ft_putstr_fd("Error\nPlayer/exit/collectible number incorrect.\n", 2);
 		return (0);
 	}
-	if (!is_path_exist(map))
+	if (!is_path_exist(map) || !is_path_exist_e(map))
 	{
 		ft_putstr_fd("Error\nMap has no path\n", 2);
 		return (0);

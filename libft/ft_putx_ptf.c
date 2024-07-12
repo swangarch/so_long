@@ -39,7 +39,7 @@ static	int	ft_unint_base(unsigned int n, char *base, int count)
 		count++;
 	}
 	return (count);
-}		
+}
 
 int	ft_putx_ptf(unsigned int n, char c)
 {

@@ -18,7 +18,7 @@ int	key_control(int keycode, t_vars *vars)
 	{
 		destroy_vars(vars);
 		exit(0);
-	}	
+	}
 	move_character(keycode, vars);
 	return (0);
 }

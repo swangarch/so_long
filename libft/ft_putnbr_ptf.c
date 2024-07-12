@@ -19,7 +19,7 @@ int	ft_putnbr_ptf(int n, int count)
 
 	l = n;
 	if (l < 0)
-	{	
+	{
 		write(1, "-", 1);
 		l = -l;
 		count++;
@@ -30,7 +30,7 @@ int	ft_putnbr_ptf(int n, int count)
 		l = l / 10;
 		count = ft_putnbr_ptf(l, count + 1);
 		write(1, &r, 1);
-	}	
+	}
 	else if (l >= 0 && l <= 9)
 	{
 		r = l + '0';
