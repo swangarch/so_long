@@ -34,37 +34,48 @@ t_mapsize	*get_map_size(char **map)
 	return (size);
 }
 
-t_mapsize	*find_player(char **map)
+static void	set_size(char **map, int *x, int *y)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		while (map[i][j] != '\n')
+			j++;
+		i++;
+	}
+	*x = j;
+	*y = i;
+}
+
+t_mapsize	*find_player(char **map, int i, int j)
 {
 	t_mapsize	*position;
-	t_mapsize	*size;
-	int			i;
-	int			j;
+	int			x;
+	int			y;
 
-	size = get_map_size(map);
-	if (size == NULL)
-		return (NULL);
-	i = 0;
+	set_size(map, &x, &y);
 	position = malloc(sizeof(t_mapsize));
 	if (position == NULL)
 		return (NULL);
-	while (i < size->y)
+	while (i < y)
 	{
 		j = 0;
-		while (j < size->x)
+		while (j < x)
 		{
 			if (map[i][j] == 'P')
 			{
 				position->x = j;
 				position->y = i;
-				free(size);
 				return (position);
 			}
 			j++;
 		}
 		i++;
 	}
-	free(size);
 	free(position);
 	return (NULL);
 }

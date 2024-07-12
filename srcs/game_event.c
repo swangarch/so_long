@@ -76,7 +76,7 @@ int	move_character(int keycode, t_vars *vars)
 	t_mapsize	*pos;
 	char		*next_pos;
 
-	pos = find_player(vars->map);
+	pos = find_player(vars->map, 0, 0);
 	if (pos == NULL)
 		return (-1);
 	next_pos = NULL;

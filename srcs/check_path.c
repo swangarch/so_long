@@ -65,7 +65,7 @@ int	is_path_exist(char **map)
 	copymap = dup_map(map);
 	if (copymap == NULL)
 		return (0);
-	pos = find_player(copymap);
+	pos = find_player(copymap, 0, 0);
 	if (pos == NULL)
 	{
 		free_map(copymap);
