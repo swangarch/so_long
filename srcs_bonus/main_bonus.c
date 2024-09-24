@@ -62,15 +62,16 @@ t_vars	*init_vars(t_vars *vars, int fd)
 /*---------------BONUS-------------------*/
 int	update_frame(t_vars *vars)
 {
-	static time_t	last_time;
-	time_t			current_time;
+	suseconds_t		lasttime;
+	struct timeval	currenttime;
 
-	time(&current_time);
-	if (current_time - last_time >= 0.2)
+	lasttime = 0;
+	gettimeofday(&currenttime, NULL);
+	if (currenttime.tv_usec - lasttime >= 200000)
 	{
-		vars->frame = current_time % 3;
+		vars->frame = currenttime.tv_usec / 100000 % 5;
 		render_map(vars);
-		last_time = current_time;
+		lasttime = currenttime.tv_usec;
 	}
 	return (0);
 }
@@ -92,7 +93,7 @@ int	main(int ac, char **av)
 		return (1);
 	close(fd);
 	render_map(&vars);
-	mlx_key_hook(vars.win, key_control, &vars);
+	mlx_hook(vars.win, 2, (1L << 0), key_control, &vars);
 	mlx_hook(vars.win, 17, 0, cross_press, &vars);
 	mlx_loop_hook(vars.mlx, update_frame, &vars);
 	mlx_loop(vars.mlx);

@@ -52,7 +52,7 @@ void	render_item(t_vars *vars, int i, int j, t_texture *textures)
 		if (vars->frame == 0)
 			mlx_put_image_to_window(vars->mlx, vars->win, \
 				textures->image_c3, j * SCALE, i * SCALE);
-		else if (vars->frame == 1)
+		else if (vars->frame == 1 || vars->frame == 2)
 			mlx_put_image_to_window(vars->mlx, vars->win, \
 				textures->image_c2, j * SCALE, i * SCALE);
 		else
@@ -68,7 +68,7 @@ void	render_enemy(t_vars *vars, int i, int j, t_texture	*textures)
 		if (vars->frame == 0)
 			mlx_put_image_to_window(vars->mlx, vars->win, \
 				textures->image_m3, j * SCALE, i * SCALE);
-		else if (vars->frame == 1)
+		else if (vars->frame == 1 || vars->frame == 2)
 			mlx_put_image_to_window(vars->mlx, vars->win, \
 				textures->image_m2, j * SCALE, i * SCALE);
 		else

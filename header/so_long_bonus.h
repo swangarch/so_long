@@ -15,7 +15,7 @@
 # define SCALE 60
 # include "libft.h"
 # include "mlx.h"
-# include <time.h>
+# include <sys/time.h>
 
 typedef struct s_texture
 {
