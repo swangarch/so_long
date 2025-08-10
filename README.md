@@ -9,10 +9,19 @@ So_Long is a simple 2D game project developed as part of the 42 school curriculu
 - Tracks collectibles and game progress
 - Uses MiniLibX for rendering the game window and sprites
 
+## Bonus features
+- Move step on screen
+- Enemy
+- Sprite animation
+
+## demo
+![demo](demo/so_long.png)
+[🎥 demo video](https://www.youtube.com/watch?v=OyAGqfAYfhA)
+
 ## Project Structure
 
 - **src/** — Source code files
-- **includes/** — Header files
+- **header/** — Header files
 - **maps/** — Sample map files (`.ber` format)
 - **mlx_linux/** — MiniLibX graphics library for Linux
 
@@ -23,14 +32,14 @@ So_Long is a simple 2D game project developed as part of the 42 school curriculu
 - MiniLibX (included in the repo)
 - Make
 
-## How to Build
+## Build
 
-```bash
-make
+bash
+make (make bonus for bonus feature)
 
-This will compile the executable so_long.
+This will compile the executable so_long (so_long_bonus).
 
-## How to Build
+## Run
 bash
 Copy
 Edit
@@ -44,16 +53,12 @@ ESC to exit the game
 
 Map Format
 1 — Wall
-
 0 — Empty space
-
 C — Collectible
-
 E — Exit
-
 P — Player start position
 
-Notes
+## Notes
 The game ends when the player collects all collectibles and reaches the exit.
 
 Invalid maps will cause the program to exit with an error message.
